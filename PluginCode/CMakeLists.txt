@@ -6,8 +6,7 @@ project(OCD_Emu VERSION 0.0.1)
 add_subdirectory(../Dependencies/RTNeural ${CMAKE_CURRENT_BINARY_DIR}/RTNeural)
 include_directories(../Dependencies/RTNeural)
 
-set(EIGEN3_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/../Dependencies/Eigen")
-include_directories(${EIGEN3_INCLUDE_DIR})
+include_directories(../Dependencies/Eigen)
 
 add_subdirectory(../Dependencies/JUCE ./JUCE)  
 include_directories(../Dependencies/JUCE)
