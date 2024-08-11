@@ -11,7 +11,7 @@ ToneControl::ToneControl()
             1, 0,  0, 0, 1,  0, 0, 0, 1, 0, 0,
             0, 1, -1, 0, 0, -1, 0, 0, 0, 1, 0,
             0, 0, -1, 0, 0, -1, 1, 0, 0, 0, 1;
-    Rsw = Rs1;
+    Rsw = R11;
     Rtc = Rtol;
     Rva = 0.1 * Rv + Rtol;
     Rvb = 0.9 * Rv + Rtol;
@@ -61,11 +61,11 @@ void ToneControl::setSwitch(bool state)
 {
     if (state)
     {
-        Rsw = Rs1;
+        Rsw = R11;
     }
     else
     {
-        Rsw = Rs2;
+        Rsw = 1.0 / (1.0 / R11 + 1.0 / R12);
     }
     Z(9, 9) = Rsw;
     updateS();

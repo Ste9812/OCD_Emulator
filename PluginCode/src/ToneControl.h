@@ -31,8 +31,8 @@ private:
     double Rg = 1e-9;
     double R9 = 150e3;
     double R10 = 39e3;
-    double Rs1 = 33e3;
-    double Rs2 = 13.2e3;
+    double R11 = 33e3;
+    double R12 = 22e3;
     double Rt = 10e3;
     double Rv = 500e3;
     double C5 = 220e-12;
