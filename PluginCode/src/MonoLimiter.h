@@ -14,9 +14,10 @@ public:
 private:
     juce::dsp::ProcessSpec limiterSpec;
 
+    int numberChannels = 1;
+
     juce::dsp::Limiter<float> limiter;
 
     float limiterRelTimeMS = 10.0f;
     float limiterThresholdDB = 0.0f;
-    int numberChannels = 1;
 };

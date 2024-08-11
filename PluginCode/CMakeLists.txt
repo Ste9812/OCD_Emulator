@@ -3,14 +3,14 @@ set(CMAKE_CXX_STANDARD 17)
 
 project(OCD_Emu VERSION 0.0.1)
 
-add_subdirectory(../RTNeural ${CMAKE_CURRENT_BINARY_DIR}/RTNeural)
-include_directories(../RTNeural)
+add_subdirectory(../Dependencies/RTNeural ${CMAKE_CURRENT_BINARY_DIR}/RTNeural)
+include_directories(../Dependencies/RTNeural)
 
-set(EIGEN3_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/../Eigen")
+set(EIGEN3_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/../Dependencies/Eigen")
 include_directories(${EIGEN3_INCLUDE_DIR})
 
-add_subdirectory(../JUCE ./JUCE)  
-include_directories(../JUCE)
+add_subdirectory(../Dependencies/JUCE ./JUCE)  
+include_directories(../Dependencies/JUCE)
 
 juce_add_plugin(OCD_Emu
     COMPANY_NAME PoliMi                        

@@ -16,7 +16,7 @@ OCD_EmuAudioProcessor::OCD_EmuAudioProcessor()
 {
     inputLimiter = MonoLimiter::MonoLimiter();
 
-    const char *modelPath = "C:/Users/Stefano/Desktop/Plugin/OCD_Emu_Code/model.json"; 
+    const char *modelPath = "C:/Users/Stefano/Documents/GitHub/STMAE_Project/Training/Results/OCD_Parameterized-RNN3-OCD_Parameterized/model.json"; 
 
     lstmModel = NeuralNetwork::NeuralNetwork(modelPath);
 
