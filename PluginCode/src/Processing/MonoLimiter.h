@@ -6,7 +6,7 @@ class MonoLimiter
 {
 public:
     MonoLimiter();
-
+ 
     void prepare(double sampleRate, int samplesPerBlock);
 
     void process(juce::AudioBuffer<float>& inputBuffer, float* outputBuffer, int bufferLength);

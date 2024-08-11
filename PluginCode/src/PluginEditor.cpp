@@ -7,54 +7,67 @@ OCD_EmuAudioProcessorEditor::OCD_EmuAudioProcessorEditor (OCD_EmuAudioProcessor&
 {
     setSize(300, 600);
 
-    addAndMakeVisible(driveRot);
-    driveRot.setRange(0.0, 1.0, 0.01);
-    driveRot.setValue(0.0);
-    driveRot.setTextBoxStyle(Slider::TextEntryBoxPosition::NoTextBox, true, 0, 0);
-    driveRot.setSliderStyle(juce::Slider::Rotary);
-    driveRot.addListener(this);
-
-    addAndMakeVisible(driveLbl);
-    driveLbl.setJustificationType(juce::Justification::centred);
+    addAndMakeVisible(driveKnob);
+    driveKnob.setRange(0.0, 1.0, 0.01);
+    driveKnob.setValue(0.0);
+    driveKnob.setTextBoxStyle(Slider::TextEntryBoxPosition::NoTextBox, true, 0, 0);
+    driveKnob.setSliderStyle(juce::Slider::Rotary);
+    driveKnob.setLookAndFeel(&knobStyle);
+    driveKnob.addListener(this);
 
     addAndMakeVisible(switchBtn);
     switchBtn.setClickingTogglesState(true);
     switchBtn.addListener(this);
 
-    addAndMakeVisible(toneRot);
-    toneRot.setRange(0.0, 1.0, 0.01);
-    toneRot.setValue(0.0);
-    toneRot.setTextBoxStyle(Slider::TextEntryBoxPosition::NoTextBox, true, 0, 0);
-    toneRot.setSliderStyle(juce::Slider::Rotary);
-    toneRot.addListener(this);
+    addAndMakeVisible(toneKnob);
+    toneKnob.setRange(0.0, 1.0, 0.01);
+    toneKnob.setValue(0.0);
+    toneKnob.setTextBoxStyle(Slider::TextEntryBoxPosition::NoTextBox, true, 0, 0);
+    toneKnob.setSliderStyle(juce::Slider::Rotary);
+    toneKnob.setLookAndFeel(&knobStyle);
+    toneKnob.addListener(this);
 
-    addAndMakeVisible(toneLbl);
-    toneLbl.setJustificationType(juce::Justification::centred);
-
-    addAndMakeVisible(volumeRot);
-    volumeRot.setRange(0.0, 1.0, 0.01);
-    volumeRot.setValue(0.5);
-    volumeRot.setTextBoxStyle(Slider::TextEntryBoxPosition::NoTextBox, true, 0, 0);
-    volumeRot.setSliderStyle(juce::Slider::Rotary);
-    volumeRot.addListener(this);
-
-    addAndMakeVisible(volumeLbl);
-    volumeLbl.setJustificationType(juce::Justification::centred);
+    addAndMakeVisible(volumeKnob);
+    volumeKnob.setRange(0.0, 1.0, 0.01);
+    volumeKnob.setValue(0.5);
+    volumeKnob.setTextBoxStyle(Slider::TextEntryBoxPosition::NoTextBox, true, 0, 0);
+    volumeKnob.setSliderStyle(juce::Slider::Rotary);
+    volumeKnob.setLookAndFeel(&knobStyle);
+    volumeKnob.addListener(this);
 
     addAndMakeVisible(bypassBtn);
     bypassBtn.setClickingTogglesState(true);
     bypassBtn.addListener(this);
+
+    addAndMakeVisible(driveLbl);
+    driveLbl.setJustificationType(juce::Justification::centred);
+    driveLbl.setColour(1, juce::Colours::black);
+
+    addAndMakeVisible(toneLbl);
+    toneLbl.setJustificationType(juce::Justification::centred);
+    toneLbl.setColour(1, juce::Colours::black);
+
+    addAndMakeVisible(volumeLbl);
+    volumeLbl.setJustificationType(juce::Justification::centred);
+    volumeLbl.setColour(1, juce::Colours::black);
 }
 
 OCD_EmuAudioProcessorEditor::~OCD_EmuAudioProcessorEditor()
 {
+    driveKnob.setLookAndFeel(nullptr);
+    toneKnob.setLookAndFeel(nullptr);
+    volumeKnob.setLookAndFeel(nullptr);
 }
 
 //==============================================================================
 void OCD_EmuAudioProcessorEditor::paint (juce::Graphics& g)
 {
+    int corner = 10;
+    int pedalWidth = getWidth() - 2 * corner;
+    int pedalHeight = getHeight() - 2 * corner;
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-    g.setColour (juce::Colours::white);
+    g.setColour (juce::Colour::fromRGB(253, 253, 208));
+    g.fillRect (corner, corner, pedalWidth, pedalHeight);
 }
 
 void OCD_EmuAudioProcessorEditor::resized()
@@ -68,15 +81,15 @@ void OCD_EmuAudioProcessorEditor::resized()
     int center = w / 2;
     int dxCorner = w - rotDim - sxCorner;
  
-    driveRot.setBounds(sxCorner, upCorner, rotDim, rotDim);
+    driveKnob.setBounds(sxCorner, upCorner, rotDim, rotDim);
     driveLbl.setBounds(sxCorner, upCorner - 15, rotDim, 15);
 
     switchBtn.setBounds(center - w / 16, upCorner / 2, w / 8, h / 10);
 
-    toneRot.setBounds(center - rotDim / 2, rotDim + upCorner + 10, rotDim, rotDim);
+    toneKnob.setBounds(center - rotDim / 2, rotDim + upCorner + 10, rotDim, rotDim);
     toneLbl.setBounds(center - rotDim / 2, rotDim + upCorner - 5, rotDim, 15);
 
-    volumeRot.setBounds(dxCorner, upCorner, rotDim, rotDim);
+    volumeKnob.setBounds(dxCorner, upCorner, rotDim, rotDim);
     volumeLbl.setBounds(dxCorner, upCorner - 15, rotDim, 15);
 
     bypassBtn.setBounds(w / 2 - w / 7, 2 * h / 3, 2 * w / 7, 2 * w / 7);
@@ -112,15 +125,15 @@ void OCD_EmuAudioProcessorEditor::buttonClicked(Button* button)
  
 void OCD_EmuAudioProcessorEditor::sliderValueChanged (Slider *slider)
 {
-    if (slider == &driveRot)
+    if (slider == &driveKnob)
     {
         audioProcessor.setDrive(slider->getValue());
     }
-    if (slider == &toneRot)
+    if (slider == &toneKnob)
     {
         audioProcessor.setTone(slider->getValue());
     }
-    if (slider == &volumeRot)
+    if (slider == &volumeKnob)
     {
         audioProcessor.setVolume(slider->getValue());
     }

@@ -28,9 +28,10 @@ target_sources(OCD_Emu
     PRIVATE
     src/PluginEditor.cpp
     src/PluginProcessor.cpp
-    src/NeuralNetwork.cpp
-    src/ToneControl.cpp
-    src/MonoLimiter.cpp)
+    src/Processing/NeuralNetwork.cpp
+    src/Processing/ToneControl.cpp
+    src/Processing/MonoLimiter.cpp
+    src/UserInterface/CustomKnob.cpp)
 
 target_compile_definitions(OCD_Emu
     PUBLIC 

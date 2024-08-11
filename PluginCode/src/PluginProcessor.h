@@ -1,8 +1,8 @@
 #pragma once
 #include <JuceHeader.h>
-#include "MonoLimiter.h"
-#include "NeuralNetwork.h"
-#include "ToneControl.h"
+#include "Processing/MonoLimiter.h"
+#include "Processing/NeuralNetwork.h"
+#include "Processing/ToneControl.h"
 
 //==============================================================================
 class OCD_EmuAudioProcessor  : public juce::AudioProcessor 

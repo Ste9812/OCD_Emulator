@@ -5,7 +5,7 @@ using floatVec = std::vector<float>;
 using floatVec2D = std::vector<floatVec>;
 using denseLayer = RTNeural::DenseT<float, 32, 1>;
 using lstmLayer = RTNeural::LSTMLayerT<float, 2, 32, RTNeural::SampleRateCorrectionMode::LinInterp>;
-using parametricLSTM = RTNeural::ModelT<float, 2, 1, lstmLayer, denseLayer>;
+using conditionedLSTM = RTNeural::ModelT<float, 2, 1, lstmLayer, denseLayer>;
 
 class NeuralNetwork 
 {
@@ -23,7 +23,7 @@ public:
     floatVec2D transpose(const floatVec2D& x);
 
 private:
-    parametricLSTM model;
+    conditionedLSTM model;
 
     // Default sample rate for the neural network (training sample rate)
     double defaultSampleRate = 48000.0;

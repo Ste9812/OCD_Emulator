@@ -1,6 +1,7 @@
 #pragma once
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
+#include "UserInterface/CustomKnob.h"
 
 //==============================================================================
 class OCD_EmuAudioProcessorEditor  : public juce::AudioProcessorEditor,
@@ -22,15 +23,17 @@ public:
 
 
 private:
-    juce::Slider driveRot;
+    juce::Slider driveKnob;
     juce::TextButton switchBtn{"LP"};
-    juce::Slider toneRot;
-    juce::Slider volumeRot;
+    juce::Slider toneKnob;
+    juce::Slider volumeKnob;
     juce::TextButton bypassBtn{"ON"};
 
     juce::Label driveLbl{{}, "Drive"};
     juce::Label toneLbl{{}, "Tone"};
     juce::Label volumeLbl{{}, "Volume"};
+
+    CustomKnob knobStyle;
 
     OCD_EmuAudioProcessor& audioProcessor;
     //==============================================================================
