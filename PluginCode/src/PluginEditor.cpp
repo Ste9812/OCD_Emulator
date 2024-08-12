@@ -7,12 +7,16 @@ OCD_EmuAudioProcessorEditor::OCD_EmuAudioProcessorEditor (OCD_EmuAudioProcessor&
 {
     setSize(300, 600);
 
+    float startAngle = -0.75f * juce::MathConstants<float>::pi;
+    float endAngle = 0.75f * juce::MathConstants<float>::pi;
+
     addAndMakeVisible(driveKnob);
     driveKnob.setRange(0.0, 1.0, 0.01);
     driveKnob.setValue(0.0);
     driveKnob.setTextBoxStyle(Slider::TextEntryBoxPosition::NoTextBox, true, 0, 0);
     driveKnob.setSliderStyle(juce::Slider::Rotary);
-    driveKnob.setLookAndFeel(&knobStyle);
+    driveKnob.setRotaryParameters(startAngle, endAngle, true);
+    driveKnob.setLookAndFeel(&uiStyle);
     driveKnob.addListener(this);
 
     addAndMakeVisible(switchBtn);
@@ -24,7 +28,8 @@ OCD_EmuAudioProcessorEditor::OCD_EmuAudioProcessorEditor (OCD_EmuAudioProcessor&
     toneKnob.setValue(0.0);
     toneKnob.setTextBoxStyle(Slider::TextEntryBoxPosition::NoTextBox, true, 0, 0);
     toneKnob.setSliderStyle(juce::Slider::Rotary);
-    toneKnob.setLookAndFeel(&knobStyle);
+    toneKnob.setRotaryParameters(startAngle, endAngle, true);
+    toneKnob.setLookAndFeel(&uiStyle);
     toneKnob.addListener(this);
 
     addAndMakeVisible(volumeKnob);
@@ -32,7 +37,8 @@ OCD_EmuAudioProcessorEditor::OCD_EmuAudioProcessorEditor (OCD_EmuAudioProcessor&
     volumeKnob.setValue(0.5);
     volumeKnob.setTextBoxStyle(Slider::TextEntryBoxPosition::NoTextBox, true, 0, 0);
     volumeKnob.setSliderStyle(juce::Slider::Rotary);
-    volumeKnob.setLookAndFeel(&knobStyle);
+    volumeKnob.setRotaryParameters(startAngle, endAngle, true);
+    volumeKnob.setLookAndFeel(&uiStyle);
     volumeKnob.addListener(this);
 
     addAndMakeVisible(bypassBtn);
@@ -40,16 +46,13 @@ OCD_EmuAudioProcessorEditor::OCD_EmuAudioProcessorEditor (OCD_EmuAudioProcessor&
     bypassBtn.addListener(this);
 
     addAndMakeVisible(driveLbl);
-    driveLbl.setJustificationType(juce::Justification::centred);
-    driveLbl.setColour(1, juce::Colours::black);
+    driveLbl.setLookAndFeel(&uiStyle);
 
     addAndMakeVisible(toneLbl);
-    toneLbl.setJustificationType(juce::Justification::centred);
-    toneLbl.setColour(1, juce::Colours::black);
+    toneLbl.setLookAndFeel(&uiStyle);
 
     addAndMakeVisible(volumeLbl);
-    volumeLbl.setJustificationType(juce::Justification::centred);
-    volumeLbl.setColour(1, juce::Colours::black);
+    volumeLbl.setLookAndFeel(&uiStyle);
 }
 
 OCD_EmuAudioProcessorEditor::~OCD_EmuAudioProcessorEditor()
@@ -57,17 +60,22 @@ OCD_EmuAudioProcessorEditor::~OCD_EmuAudioProcessorEditor()
     driveKnob.setLookAndFeel(nullptr);
     toneKnob.setLookAndFeel(nullptr);
     volumeKnob.setLookAndFeel(nullptr);
+    driveLbl.setLookAndFeel(nullptr);
+    toneLbl.setLookAndFeel(nullptr);
+    volumeLbl.setLookAndFeel(nullptr);
 }
 
 //==============================================================================
 void OCD_EmuAudioProcessorEditor::paint (juce::Graphics& g)
 {
-    int corner = 10;
-    int pedalWidth = getWidth() - 2 * corner;
-    int pedalHeight = getHeight() - 2 * corner;
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-    g.setColour (juce::Colour::fromRGB(253, 253, 208));
-    g.fillRect (corner, corner, pedalWidth, pedalHeight);
+    g.fillAll(juce::Colours::black);
+
+    float corner = 10.0f;
+    float pedalWidth = float(getWidth()) - 2.0f * corner;
+    float pedalHeight = float(getHeight()) - 2.0f * corner;
+
+    g.setColour(juce::Colour::fromRGB(253, 253, 208));
+    g.fillRoundedRectangle(juce::Rectangle<float>(corner, corner, pedalWidth, pedalHeight), 10);
 }
 
 void OCD_EmuAudioProcessorEditor::resized()
@@ -75,22 +83,23 @@ void OCD_EmuAudioProcessorEditor::resized()
     int w = getWidth();
     int h = getHeight(); 
 
-    int rotDim = h / 5;
+    int knobDiameter = h / 5;
     int upCorner = 30;
     int sxCorner = 10;
-    int center = w / 2;
-    int dxCorner = w - rotDim - sxCorner;
+    int centerX = w / 2;
+    int dxCorner = w - knobDiameter - sxCorner;
+    int labelHeight = 15;
  
-    driveKnob.setBounds(sxCorner, upCorner, rotDim, rotDim);
-    driveLbl.setBounds(sxCorner, upCorner - 15, rotDim, 15);
+    driveKnob.setBounds(sxCorner, upCorner, knobDiameter, knobDiameter);
+    driveLbl.setBounds(sxCorner, upCorner - 10, knobDiameter, labelHeight);
 
-    switchBtn.setBounds(center - w / 16, upCorner / 2, w / 8, h / 10);
+    switchBtn.setBounds(centerX - w / 16, upCorner / 2, w / 8, h / 10);
 
-    toneKnob.setBounds(center - rotDim / 2, rotDim + upCorner + 10, rotDim, rotDim);
-    toneLbl.setBounds(center - rotDim / 2, rotDim + upCorner - 5, rotDim, 15);
+    toneKnob.setBounds(centerX - knobDiameter / 2, knobDiameter + upCorner + 10, knobDiameter, knobDiameter);
+    toneLbl.setBounds(centerX - knobDiameter / 2, knobDiameter + upCorner, knobDiameter, labelHeight);
 
-    volumeKnob.setBounds(dxCorner, upCorner, rotDim, rotDim);
-    volumeLbl.setBounds(dxCorner, upCorner - 15, rotDim, 15);
+    volumeKnob.setBounds(dxCorner, upCorner, knobDiameter, knobDiameter);
+    volumeLbl.setBounds(dxCorner, upCorner - 10, knobDiameter, labelHeight);
 
     bypassBtn.setBounds(w / 2 - w / 7, 2 * h / 3, 2 * w / 7, 2 * w / 7);
 }

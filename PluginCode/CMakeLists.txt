@@ -31,7 +31,7 @@ target_sources(OCD_Emu
     src/Processing/NeuralNetwork.cpp
     src/Processing/ToneControl.cpp
     src/Processing/MonoLimiter.cpp
-    src/UserInterface/CustomKnob.cpp)
+    src/UserInterface/CustomStyle.cpp)
 
 target_compile_definitions(OCD_Emu
     PUBLIC 

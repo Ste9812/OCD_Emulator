@@ -1,7 +1,7 @@
 #pragma once
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
-#include "UserInterface/CustomKnob.h"
+#include "UserInterface/CustomStyle.h"
 
 //==============================================================================
 class OCD_EmuAudioProcessorEditor  : public juce::AudioProcessorEditor,
@@ -33,7 +33,7 @@ private:
     juce::Label toneLbl{{}, "Tone"};
     juce::Label volumeLbl{{}, "Volume"};
 
-    CustomKnob knobStyle;
+    CustomStyle uiStyle;
 
     OCD_EmuAudioProcessor& audioProcessor;
     //==============================================================================
