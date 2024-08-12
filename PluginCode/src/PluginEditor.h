@@ -17,19 +17,19 @@ public:
     void resized() override;
 
     //==============================================================================
-    
     void sliderValueChanged(Slider *slider) override;
     void buttonClicked(Button* btn) override; 
 
-
 private:
     juce::Slider driveKnob;
-    juce::TextButton switchBtn{"LP"};
+    juce::ToggleButton switchBtn;
     juce::Slider toneKnob;
     juce::Slider volumeKnob;
     juce::TextButton bypassBtn{"ON"};
 
     juce::Label driveLbl{{}, "Drive"};
+    juce::Label highPassLbl{{}, "HP"};
+    juce::Label lowPassLbl{{}, "LP"};
     juce::Label toneLbl{{}, "Tone"};
     juce::Label volumeLbl{{}, "Volume"};
 

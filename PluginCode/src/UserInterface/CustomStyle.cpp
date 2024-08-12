@@ -7,7 +7,7 @@ CustomStyle::CustomStyle()
 
 //==============================================================================
 void CustomStyle::drawRotarySlider(juce::Graphics& g, int x, int y, int width, int height, float sliderPos,
-                                  const float rotaryStartAngle, const float rotaryEndAngle, juce::Slider& slider)
+                                   const float rotaryStartAngle, const float rotaryEndAngle, juce::Slider& slider)
 {
     juce::ignoreUnused(slider);
 
@@ -50,6 +50,51 @@ void CustomStyle::drawRotarySlider(juce::Graphics& g, int x, int y, int width, i
     arrow.addTriangle(endPoint, basePoint1, basePoint2);
     g.setColour(juce::Colours::black);
     g.fillPath(arrow);
+}
+
+void CustomStyle::drawToggleButton(juce::Graphics& g, juce::ToggleButton& toggleButton,
+                                   bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown)
+{
+    juce::ignoreUnused(shouldDrawButtonAsHighlighted, shouldDrawButtonAsDown);
+
+    auto bounds = toggleButton.getLocalBounds().toFloat();
+    float switchWidth = bounds.getWidth() * 0.2f;
+    float switchHeight = bounds.getHeight() * 0.35f;
+    float baseDiameter = bounds.getWidth() * 0.7f;
+    float baseRadius = baseDiameter / 2.0f;
+    float centerX = bounds.getWidth() * 0.5f;
+    float centerY = bounds.getHeight() * 0.5f;
+
+    juce::Rectangle<float> baseCircle(centerX - baseRadius, centerY - baseRadius, baseDiameter, baseDiameter); 
+    juce::ColourGradient gradOut(juce::Colours::white, centerX, centerY, 
+                                 juce::Colours::black.withAlpha(0.4f), centerX + baseRadius, centerY + baseRadius, 
+                                 true);
+    g.setGradientFill(gradOut);
+    g.fillEllipse(baseCircle);
+    float internalDiameter = baseDiameter * 0.6f;
+    float internalRadius = internalDiameter / 2.0f;
+    juce::Rectangle<float> internalCircle(centerX - internalRadius, centerY - internalRadius, internalDiameter, internalDiameter); 
+    juce::ColourGradient gradInt(juce::Colours::white, centerX, centerY, 
+                                 juce::Colours::black, centerX + internalRadius, centerY + internalRadius, 
+                                 true);
+    g.setGradientFill(gradInt);
+    g.fillEllipse(internalCircle);
+    g.setColour(juce::Colours::black);
+    g.drawEllipse(internalCircle, 1.0f);
+    g.drawEllipse(baseCircle, 1.0f);
+
+    // g.setColour(juce::Colours::black);
+    // g.drawRoundedRectangle(bounds, 4.0f, 2.0f);
+
+    float yOffset = toggleButton.getToggleState() ? centerY - switchHeight : centerY;
+    auto switchBounds = juce::Rectangle<float>(bounds.getCentreX() - switchWidth / 2, yOffset, switchWidth, switchHeight);
+    g.setColour(juce::Colours::silver);
+    g.fillRoundedRectangle(switchBounds, 4.0f);
+    g.setGradientFill(juce::ColourGradient::vertical(juce::Colours::white, switchBounds.getY(),
+                                                     juce::Colours::black.withAlpha(0.6f), switchBounds.getBottom()));
+    g.fillRect(switchBounds.reduced(2.0f));
+    g.setColour(juce::Colours::black);
+    g.drawRoundedRectangle(switchBounds, 4.0f, 1.0f);
 }
 
 void CustomStyle::drawLabel(juce::Graphics& g, juce::Label& label)

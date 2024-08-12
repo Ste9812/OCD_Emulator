@@ -2,7 +2,7 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-OCD_EmuAudioProcessorEditor::OCD_EmuAudioProcessorEditor (OCD_EmuAudioProcessor& p)
+OCD_EmuAudioProcessorEditor::OCD_EmuAudioProcessorEditor(OCD_EmuAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
     setSize(300, 600);
@@ -20,7 +20,7 @@ OCD_EmuAudioProcessorEditor::OCD_EmuAudioProcessorEditor (OCD_EmuAudioProcessor&
     driveKnob.addListener(this);
 
     addAndMakeVisible(switchBtn);
-    switchBtn.setClickingTogglesState(true);
+    switchBtn.setLookAndFeel(&uiStyle);
     switchBtn.addListener(this);
 
     addAndMakeVisible(toneKnob);
@@ -47,10 +47,12 @@ OCD_EmuAudioProcessorEditor::OCD_EmuAudioProcessorEditor (OCD_EmuAudioProcessor&
 
     addAndMakeVisible(driveLbl);
     driveLbl.setLookAndFeel(&uiStyle);
-
+    addAndMakeVisible(highPassLbl);
+    highPassLbl.setLookAndFeel(&uiStyle);
+    addAndMakeVisible(lowPassLbl);
+    lowPassLbl.setLookAndFeel(&uiStyle);
     addAndMakeVisible(toneLbl);
     toneLbl.setLookAndFeel(&uiStyle);
-
     addAndMakeVisible(volumeLbl);
     volumeLbl.setLookAndFeel(&uiStyle);
 }
@@ -58,6 +60,7 @@ OCD_EmuAudioProcessorEditor::OCD_EmuAudioProcessorEditor (OCD_EmuAudioProcessor&
 OCD_EmuAudioProcessorEditor::~OCD_EmuAudioProcessorEditor()
 {
     driveKnob.setLookAndFeel(nullptr);
+    switchBtn.setLookAndFeel(nullptr);
     toneKnob.setLookAndFeel(nullptr);
     volumeKnob.setLookAndFeel(nullptr);
     driveLbl.setLookAndFeel(nullptr);
@@ -66,7 +69,7 @@ OCD_EmuAudioProcessorEditor::~OCD_EmuAudioProcessorEditor()
 }
 
 //==============================================================================
-void OCD_EmuAudioProcessorEditor::paint (juce::Graphics& g)
+void OCD_EmuAudioProcessorEditor::paint(juce::Graphics& g)
 {
     g.fillAll(juce::Colours::black);
 
@@ -85,7 +88,7 @@ void OCD_EmuAudioProcessorEditor::resized()
 
     int knobDiameter = h / 5;
     int upCorner = 30;
-    int sxCorner = 10;
+    int sxCorner = 15;
     int centerX = w / 2;
     int dxCorner = w - knobDiameter - sxCorner;
     int labelHeight = 15;
@@ -93,7 +96,9 @@ void OCD_EmuAudioProcessorEditor::resized()
     driveKnob.setBounds(sxCorner, upCorner, knobDiameter, knobDiameter);
     driveLbl.setBounds(sxCorner, upCorner - 12.5, knobDiameter, labelHeight);
 
-    switchBtn.setBounds(centerX - w / 16, upCorner / 2, w / 8, h / 10);
+    switchBtn.setBounds(centerX - w / 16, 40, w / 8, h / 10);
+    highPassLbl.setBounds(centerX - w / 16, 30, w / 8, 15);
+    lowPassLbl.setBounds(centerX - w / 16, 35 + h / 10, w / 8, 15);
 
     toneKnob.setBounds(centerX - knobDiameter / 2, knobDiameter + upCorner + 10, knobDiameter, knobDiameter);
     toneLbl.setBounds(centerX - knobDiameter / 2, knobDiameter + upCorner - 2.5, knobDiameter, labelHeight);
@@ -132,7 +137,7 @@ void OCD_EmuAudioProcessorEditor::buttonClicked(Button* button)
     }
 }
  
-void OCD_EmuAudioProcessorEditor::sliderValueChanged (Slider *slider)
+void OCD_EmuAudioProcessorEditor::sliderValueChanged(Slider *slider)
 {
     if (slider == &driveKnob)
     {
