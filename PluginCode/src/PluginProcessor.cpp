@@ -166,7 +166,7 @@ void OCD_EmuAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce:
     {
         auto* outData = buffer.getWritePointer(ch);
         outData = outputBuffer;
-    }
+    } 
 }
 
 //==============================================================================

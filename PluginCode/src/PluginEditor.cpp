@@ -91,15 +91,15 @@ void OCD_EmuAudioProcessorEditor::resized()
     int labelHeight = 15;
  
     driveKnob.setBounds(sxCorner, upCorner, knobDiameter, knobDiameter);
-    driveLbl.setBounds(sxCorner, upCorner - 10, knobDiameter, labelHeight);
+    driveLbl.setBounds(sxCorner, upCorner - 12.5, knobDiameter, labelHeight);
 
     switchBtn.setBounds(centerX - w / 16, upCorner / 2, w / 8, h / 10);
 
     toneKnob.setBounds(centerX - knobDiameter / 2, knobDiameter + upCorner + 10, knobDiameter, knobDiameter);
-    toneLbl.setBounds(centerX - knobDiameter / 2, knobDiameter + upCorner, knobDiameter, labelHeight);
+    toneLbl.setBounds(centerX - knobDiameter / 2, knobDiameter + upCorner - 2.5, knobDiameter, labelHeight);
 
     volumeKnob.setBounds(dxCorner, upCorner, knobDiameter, knobDiameter);
-    volumeLbl.setBounds(dxCorner, upCorner - 10, knobDiameter, labelHeight);
+    volumeLbl.setBounds(dxCorner, upCorner - 12.5, knobDiameter, labelHeight);
 
     bypassBtn.setBounds(w / 2 - w / 7, 2 * h / 3, 2 * w / 7, 2 * w / 7);
 }

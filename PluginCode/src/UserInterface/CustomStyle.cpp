@@ -30,34 +30,24 @@ void CustomStyle::drawRotarySlider(juce::Graphics& g, int x, int y, int width, i
     g.fillPath(knobTick, juce::AffineTransform::rotation(angle).translated(centerX, centerY));   
 
     juce::Path arcPath;
-    float arcRadius = radius + 5.0f; 
-    arcPath.addArc(centerX - arcRadius, centerY - arcRadius, 2.0f * arcRadius, 2.0f * arcRadius, rotaryStartAngle, rotaryEndAngle, true);
+    float arcRadius = radius + 6.0f; 
+    float arrowDegree = 10.0f / 180.0f * mathConst::pi;
+    arcPath.addArc(centerX - arcRadius, centerY - arcRadius, 2.0f * arcRadius, 2.0f * arcRadius, rotaryStartAngle, rotaryEndAngle - arrowDegree, true);
     g.setColour(juce::Colours::black);
     g.strokePath(arcPath, juce::PathStrokeType(3.0f));
 
     juce::Path arrow;
-    float arrowLength = 5.0f;
-    float arrowWidth = 3.0f;
-
-    // Calcola il punto finale dell'arco
-    juce::Point<float> endPoint(centerX + arcRadius * std::cos(-0.25f * mathConst::pi),
-                                centerY + arcRadius * std::sin(0.25f * mathConst::pi));
-
-    // Calcola i punti della freccia
-    juce::Point<float> basePoint1(endPoint.x - arrowLength * std::cos(rotaryEndAngle - juce::MathConstants<float>::halfPi),
-                                  endPoint.y - arrowLength * std::sin(rotaryEndAngle - juce::MathConstants<float>::halfPi));
-    juce::Point<float> basePoint2(endPoint.x - arrowLength * std::cos(rotaryEndAngle + juce::MathConstants<float>::halfPi),
-                                  endPoint.y - arrowLength * std::sin(rotaryEndAngle + juce::MathConstants<float>::halfPi));
-
-    g.setColour(juce::Colours::red);
-    g.fillEllipse(endPoint.x - 2.0f, endPoint.y - 2.0f, 4.0f, 4.0f);  // Punto finale dell'arco
-    g.fillEllipse(basePoint1.x - 2.0f, basePoint1.y - 2.0f, 4.0f, 4.0f);  // Base punto 1
-    g.fillEllipse(basePoint2.x - 2.0f, basePoint2.y - 2.0f, 4.0f, 4.0f);  // Base punto 2
-
-    // Aggiungi il triangolo alla Path
+    float arrowWidth = 8.0f;
+    float endPointX = centerX + arcRadius * std::cos(0.25f * mathConst::pi + 0.45f * arrowDegree);
+    float endPointY = centerY + arcRadius * std::sin(0.25f * mathConst::pi + 0.45f * arrowDegree);
+    float basePointX1 = centerX + ( arcRadius + 0.5f * arrowWidth ) * std::cos(0.25f * mathConst::pi - 1.1f * arrowDegree);
+    float basePointY1 = centerY + ( arcRadius + 0.5f * arrowWidth ) * std::sin(0.25f * mathConst::pi - 1.1f * arrowDegree);
+    float basePointX2 = centerX + ( arcRadius - 0.5f * arrowWidth ) * std::cos(0.25f * mathConst::pi - 1.1f * arrowDegree);
+    float basePointY2 = centerY + ( arcRadius - 0.5f * arrowWidth ) * std::sin(0.25f * mathConst::pi - 1.1f * arrowDegree);
+    juce::Point<float> endPoint(endPointX, endPointY);
+    juce::Point<float> basePoint1(basePointX1, basePointY1);
+    juce::Point<float> basePoint2(basePointX2, basePointY2);
     arrow.addTriangle(endPoint, basePoint1, basePoint2);
-
-    // Disegna la freccia
     g.setColour(juce::Colours::black);
     g.fillPath(arrow);
 }
