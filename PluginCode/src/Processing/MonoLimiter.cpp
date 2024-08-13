@@ -23,10 +23,7 @@ void MonoLimiter::process(juce::AudioBuffer<float>& inputBuffer, float* outputBu
     juce::dsp::AudioBlock<float> audioBlock(inputBuffer);
     juce::dsp::ProcessContextReplacing<float> context(audioBlock);
     limiter.process(context);
-    juce::dsp::AudioBlock<float> outputBlock = context.getOutputBlock();
-    for (int sample = 0; sample < bufferLength; ++sample)       
-    {
-        outputBuffer[sample] = outputBlock.getSample(0, sample);
-    }    
+    float* processedBuffer = context.getOutputBlock().getChannelPointer(0);
+    std::copy(processedBuffer, processedBuffer + bufferLength, outputBuffer);
 }
 

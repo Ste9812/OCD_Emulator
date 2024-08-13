@@ -165,7 +165,7 @@ void OCD_EmuAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce:
     for (int ch = 1; ch < totalNumInputChannels; ++ch)
     {
         auto* outData = buffer.getWritePointer(ch);
-        outData = outputBuffer;
+        std::copy(outputBuffer, outputBuffer + bufferLength, outData);
     } 
 }
 

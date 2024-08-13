@@ -96,9 +96,9 @@ void OCD_EmuAudioProcessorEditor::resized()
     driveKnob.setBounds(sxCorner, upCorner, knobDiameter, knobDiameter);
     driveLbl.setBounds(sxCorner, upCorner - 12.5, knobDiameter, labelHeight);
 
-    switchBtn.setBounds(centerX - w / 16, 40, w / 8, h / 10);
-    highPassLbl.setBounds(centerX - w / 16, 30, w / 8, 15);
-    lowPassLbl.setBounds(centerX - w / 16, 35 + h / 10, w / 8, 15);
+    switchBtn.setBounds(centerX - w / 16, 30, w / 8, h / 10);
+    highPassLbl.setBounds(centerX - w / 16, 20, w / 8, 15);
+    lowPassLbl.setBounds(centerX - w / 16, 25 + h / 10, w / 8, 15);
 
     toneKnob.setBounds(centerX - knobDiameter / 2, knobDiameter + upCorner + 10, knobDiameter, knobDiameter);
     toneLbl.setBounds(centerX - knobDiameter / 2, knobDiameter + upCorner - 2.5, knobDiameter, labelHeight);
