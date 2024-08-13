@@ -7,8 +7,8 @@ OCD_EmuAudioProcessorEditor::OCD_EmuAudioProcessorEditor(OCD_EmuAudioProcessor& 
 {
     setSize(300, 600);
 
-    float startAngle = -0.75f * juce::MathConstants<float>::pi;
-    float endAngle = 0.75f * juce::MathConstants<float>::pi;
+    float startAngle = -0.75f * mathConst::pi;
+    float endAngle = 0.75f * mathConst::pi;
 
     addAndMakeVisible(driveKnob);
     driveKnob.setRange(0.0, 1.0, 0.01);
@@ -43,6 +43,7 @@ OCD_EmuAudioProcessorEditor::OCD_EmuAudioProcessorEditor(OCD_EmuAudioProcessor& 
 
     addAndMakeVisible(bypassBtn);
     bypassBtn.setClickingTogglesState(true);
+    bypassBtn.setLookAndFeel(&uiStyle);
     bypassBtn.addListener(this);
 
     addAndMakeVisible(driveLbl);

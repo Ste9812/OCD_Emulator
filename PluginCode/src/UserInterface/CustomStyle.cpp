@@ -94,6 +94,36 @@ void CustomStyle::drawToggleButton(juce::Graphics& g, juce::ToggleButton& toggle
     g.drawRoundedRectangle(switchBounds, 4.0f, 1.0f);
 }
 
+void CustomStyle::drawButtonBackground(Graphics& g, Button& button, const Colour& backgroundColour,
+                                       bool isMouseOverButton, bool isButtonDown)
+{
+    juce::ignoreUnused(backgroundColour, isMouseOverButton);
+    
+    auto bounds = button.getLocalBounds().toFloat();
+    auto centre = bounds.getCentre();
+    float radius = juce::jmin(bounds.getWidth(), bounds.getHeight()) / 2.0f - 10.0f;
+
+    g.setColour(juce::Colours::silver.darker(0.5f));
+    g.fillEllipse(centre.x - radius * 1.3f, centre.y - radius * 1.3f, radius * 2.6f, radius * 2.6f);
+
+    Path hexagon;
+    hexagon.addPolygon(centre, 6, radius * 1.2f, mathConst::pi / 6.0f);
+    g.setColour(juce::Colours::darkgrey);
+    g.fillPath(hexagon);
+
+    g.setGradientFill(juce::ColourGradient(juce::Colours::silver.brighter(1.0f), centre.x, centre.y,
+                                           juce::Colours::silver.darker(1.0f), centre.x + radius * 0.95f, centre.y + radius * 0.95f, 
+                                           true));
+    g.fillEllipse(centre.x - radius * 0.95f, centre.y - radius * 0.95f, radius * 1.9f, radius * 1.9f);
+
+    if(isButtonDown)
+    {
+        g.setColour(juce::Colours::grey.brighter(0.4f));
+        g.fillEllipse(centre.x - radius * 0.9f, centre.y - radius * 0.9f,
+                      radius * 1.8f, radius * 1.8f);
+    } 
+}
+
 void CustomStyle::drawLabel(juce::Graphics& g, juce::Label& label)
 {
     juce::Font comicSansFont("Comic Sans MS", 20.0f, juce::Font::plain);

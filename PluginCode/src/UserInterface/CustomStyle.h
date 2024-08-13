@@ -13,5 +13,7 @@ private:
                           const float rotaryStartAngle, const float rotaryEndAngle, juce::Slider& slider) override;
     void drawToggleButton(juce::Graphics& g, juce::ToggleButton& toggleButton,
                           bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown) override;
+    void drawButtonBackground(Graphics& g, Button& button, const Colour& backgroundColour,
+                              bool isMouseOverButton, bool isButtonDown) override;
     void drawLabel(juce::Graphics& g, juce::Label& label) override;
 };
