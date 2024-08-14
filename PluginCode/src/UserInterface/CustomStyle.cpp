@@ -20,20 +20,23 @@ void CustomStyle::drawRotarySlider(juce::Graphics& g, int x, int y, int width, i
     float angle = rotaryStartAngle + sliderPos * (rotaryEndAngle - rotaryStartAngle);
     float tickWidth = 5.0f;
 
+    auto black = juce::Colours::black;
+    auto white = juce::Colours::whitesmoke;
+
     juce::Rectangle<float> knobArea(axisX, axisY, diameter, diameter);
-    g.setColour(juce::Colours::black);
+    g.setColour(black);
     g.fillEllipse(knobArea);
 
     juce::Path knobTick;
     knobTick.addRectangle(-0.5f * tickWidth, -0.8f * radius, tickWidth, 0.6f * radius);
-    g.setColour(juce::Colours::whitesmoke);
+    g.setColour(white);
     g.fillPath(knobTick, juce::AffineTransform::rotation(angle).translated(centreX, centreY));   
 
     juce::Path arcPath;
     float arcRadius = radius + 6.0f; 
     float arrowDegree = 10.0f / 180.0f * mathConst::pi;
     arcPath.addArc(centreX - arcRadius, centreY - arcRadius, 2.0f * arcRadius, 2.0f * arcRadius, rotaryStartAngle, rotaryEndAngle - arrowDegree, true);
-    g.setColour(juce::Colours::black);
+    g.setColour(black);
     g.strokePath(arcPath, juce::PathStrokeType(3.0f));
 
     juce::Path arrow;
@@ -48,7 +51,7 @@ void CustomStyle::drawRotarySlider(juce::Graphics& g, int x, int y, int width, i
     juce::Point<float> basePoint1(basePointX1, basePointY1);
     juce::Point<float> basePoint2(basePointX2, basePointY2);
     arrow.addTriangle(endPoint, basePoint1, basePoint2);
-    g.setColour(juce::Colours::black);
+    g.setColour(black);
     g.fillPath(arrow);
 }
 
@@ -65,32 +68,33 @@ void CustomStyle::drawToggleButton(juce::Graphics& g, juce::ToggleButton& toggle
     float centreX = bounds.getWidth() * 0.5f;
     float centreY = bounds.getHeight() * 0.5f;
 
+    auto black = juce::Colours::black;
+    auto white = juce::Colours::white;
+    auto silver = juce::Colours::silver;
+
     juce::Rectangle<float> baseCircle(centreX - baseRadius, centreY - baseRadius, baseDiameter, baseDiameter); 
-    juce::ColourGradient gradOut(juce::Colours::white, centreX, centreY, 
-                                 juce::Colours::black.withAlpha(0.4f), centreX + baseRadius, centreY + baseRadius, 
-                                 true);
+    colGrad gradOut(white, centreX, centreY, black.withAlpha(0.4f), centreX + baseRadius, centreY + baseRadius, true);
     g.setGradientFill(gradOut);
     g.fillEllipse(baseCircle);
-    float internalDiameter = baseDiameter * 0.6f;
-    float internalRadius = internalDiameter / 2.0f;
-    juce::Rectangle<float> internalCircle(centreX - internalRadius, centreY - internalRadius, internalDiameter, internalDiameter); 
-    juce::ColourGradient gradInt(juce::Colours::white, centreX, centreY, 
-                                 juce::Colours::black, centreX + internalRadius, centreY + internalRadius, 
-                                 true);
+    g.setColour(black);
+    g.drawEllipse(baseCircle, 1.0f);
+
+    float intDiameter = baseDiameter * 0.6f;
+    float intRadius = intDiameter / 2.0f;
+    juce::Rectangle<float> internalCircle(centreX - intRadius, centreY - intRadius, intDiameter, intDiameter); 
+    colGrad gradInt(white, centreX, centreY, black, centreX + intRadius, centreY + intRadius, true);
     g.setGradientFill(gradInt);
     g.fillEllipse(internalCircle);
-    g.setColour(juce::Colours::black);
+    g.setColour(black);
     g.drawEllipse(internalCircle, 1.0f);
-    g.drawEllipse(baseCircle, 1.0f);
 
     float yOffset = toggleButton.getToggleState() ? centreY - switchHeight : centreY;
     auto switchBounds = juce::Rectangle<float>(bounds.getCentreX() - switchWidth / 2, yOffset, switchWidth, switchHeight);
-    g.setColour(juce::Colours::silver);
+    g.setColour(silver);
     g.fillRoundedRectangle(switchBounds, 4.0f);
-    g.setGradientFill(juce::ColourGradient::vertical(juce::Colours::white, switchBounds.getY(),
-                                                     juce::Colours::black.withAlpha(0.6f), switchBounds.getBottom()));
+    g.setGradientFill(colGrad::vertical(white, switchBounds.getY(), black.withAlpha(0.6f), switchBounds.getBottom()));
     g.fillRect(switchBounds.reduced(2.0f));
-    g.setColour(juce::Colours::black);
+    g.setColour(black);
     g.drawRoundedRectangle(switchBounds, 4.0f, 1.0f);
 }
 
@@ -103,24 +107,43 @@ void CustomStyle::drawButtonBackground(Graphics& g, Button& button, const Colour
     auto centre = bounds.getCentre();
     float radius = juce::jmin(bounds.getWidth(), bounds.getHeight()) / 2.0f - 10.0f;
 
-    g.setColour(juce::Colours::silver.darker(0.5f));
-    g.fillEllipse(centre.x - radius * 1.3f, centre.y - radius * 1.3f, radius * 2.6f, radius * 2.6f);
+    auto white = juce::Colours::white;
+    auto black = juce::Colours::black;
+    auto silver = juce::Colours::silver;
+    auto darkgrey = juce::Colours::darkgrey;
+
+    float outRadius = radius * 1.3f;
+    float outDiameter = 2.0f * outRadius;
+    colGrad gradOut(white, centre.x, centre.y, black.withAlpha(0.4f), centre.x + outRadius, centre.y + outRadius, true);
+    g.setGradientFill(gradOut);
+    g.fillEllipse(centre.x - outRadius, centre.y - outRadius, outDiameter, outDiameter);
+    g.setColour(black);
+    g.drawEllipse(centre.x - outRadius, centre.y - outRadius, outDiameter, outDiameter, 0.6f);
 
     Path hexagon;
-    hexagon.addPolygon(centre, 6, radius * 1.2f, mathConst::pi / 6.0f);
-    g.setColour(juce::Colours::darkgrey);
+    float hexRadius = radius * 1.2f;
+    hexagon.addPolygon(centre, 6, hexRadius, mathConst::pi / 6.0f);
+    colGrad hexGrad(white, centre.x, centre.y, black.brighter(0.4f), centre.x + hexRadius, centre.y + hexRadius, true);
+    g.setGradientFill(hexGrad);
     g.fillPath(hexagon);
+    g.setColour(black);
+    g.strokePath(hexagon, PathStrokeType(0.6f));
 
-    g.setGradientFill(juce::ColourGradient(juce::Colours::silver.brighter(1.0f), centre.x, centre.y,
-                                           juce::Colours::silver.darker(1.0f), centre.x + radius * 0.95f, centre.y + radius * 0.95f, 
-                                           true));
-    g.fillEllipse(centre.x - radius * 0.95f, centre.y - radius * 0.95f, radius * 1.9f, radius * 1.9f);
+    float intRadius = 0.9f * radius;
+    float intDiameter = 2.0f * intRadius;
+    float offset = intRadius / float(sqrt(2));
+    colGrad grad(silver.brighter(1.2f), centre.x - offset, centre.y - offset, silver.darker(1.0f), centre.x + offset, centre.y + offset, false);
+    g.setGradientFill(grad);
+    g.fillEllipse(centre.x - intRadius, centre.y - intRadius, intDiameter, intDiameter);
+    g.setColour(black);
+    g.drawEllipse(centre.x - intRadius, centre.y - intRadius, intDiameter, intDiameter, 0.6f);
 
-    if(isButtonDown)
+    if (isButtonDown)
     {
-        g.setColour(juce::Colours::grey.brighter(0.4f));
-        g.fillEllipse(centre.x - radius * 0.9f, centre.y - radius * 0.9f,
-                      radius * 1.8f, radius * 1.8f);
+        g.setColour(darkgrey.brighter(0.4f));
+        g.fillEllipse(centre.x - intRadius, centre.y - intRadius, intDiameter, intDiameter);
+        g.setColour(black);
+        g.drawEllipse(centre.x - intRadius, centre.y - intRadius, intDiameter, intDiameter, 0.6f);
     } 
 }
 

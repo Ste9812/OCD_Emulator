@@ -2,6 +2,7 @@
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
 #include "UserInterface/CustomStyle.h"
+#include "UserInterface/Led.h"
 
 //==============================================================================
 class OCD_EmuAudioProcessorEditor  : public juce::AudioProcessorEditor,
@@ -25,13 +26,19 @@ private:
     juce::ToggleButton switchBtn;
     juce::Slider toneKnob;
     juce::Slider volumeKnob;
-    juce::TextButton bypassBtn{"ON"};
+    juce::TextButton bypassBtn;
 
     juce::Label driveLbl{{}, "Drive"};
     juce::Label highPassLbl{{}, "HP"};
     juce::Label lowPassLbl{{}, "LP"};
     juce::Label toneLbl{{}, "Tone"};
     juce::Label volumeLbl{{}, "Volume"};
+
+    juce::Label pedalName{{}, "OCD"};
+    juce::Label manufacturer{{}, "Stefano Ravasi"};
+    juce::Label project{{}, "STMAE Project - 2023/2024"};
+
+    Led led;
 
     CustomStyle uiStyle;
 

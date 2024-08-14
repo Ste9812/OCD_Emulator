@@ -23,6 +23,8 @@ OCD_EmuAudioProcessorEditor::OCD_EmuAudioProcessorEditor(OCD_EmuAudioProcessor& 
     switchBtn.setLookAndFeel(&uiStyle);
     switchBtn.addListener(this);
 
+    addAndMakeVisible(led);
+
     addAndMakeVisible(toneKnob);
     toneKnob.setRange(0.0, 1.0, 0.01);
     toneKnob.setValue(0.0);
@@ -101,13 +103,15 @@ void OCD_EmuAudioProcessorEditor::resized()
     highPassLbl.setBounds(centerX - w / 16, 20, w / 8, 15);
     lowPassLbl.setBounds(centerX - w / 16, 25 + h / 10, w / 8, 15);
 
+    led.setBounds(centerX - 10, 56 + h / 10, 20, 20);
+
     toneKnob.setBounds(centerX - knobDiameter / 2, knobDiameter + upCorner + 10, knobDiameter, knobDiameter);
     toneLbl.setBounds(centerX - knobDiameter / 2, knobDiameter + upCorner - 2.5, knobDiameter, labelHeight);
 
     volumeKnob.setBounds(dxCorner, upCorner, knobDiameter, knobDiameter);
     volumeLbl.setBounds(dxCorner, upCorner - 12.5, knobDiameter, labelHeight);
 
-    bypassBtn.setBounds(w / 2 - w / 7, 2 * h / 3, 2 * w / 7, 2 * w / 7);
+    bypassBtn.setBounds(3 * w / 8, 2 * h / 3, w / 4, w / 4);
 }
 
 void OCD_EmuAudioProcessorEditor::buttonClicked(Button* button)
@@ -129,11 +133,11 @@ void OCD_EmuAudioProcessorEditor::buttonClicked(Button* button)
         audioProcessor.setEnable(bypassBtn.getToggleState());
         if (!bypassBtn.getToggleState())
         {
-            bypassBtn.setButtonText("OFF");
+            led.setLedOn(bypassBtn.getToggleState());
         }
         else
         {
-            bypassBtn.setButtonText("ON");
+            led.setLedOn(bypassBtn.getToggleState());
         }
     }
 }
