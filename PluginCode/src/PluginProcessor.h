@@ -53,7 +53,7 @@ public:
     void setSwitch(bool newState);
     void setTone(double newValue);
     void setVolume(double newValue);
-    void setEnable(bool newState); 
+    void setBypass(bool newState); 
 
 private:
     MonoLimiter inputLimiter;
@@ -66,7 +66,7 @@ private:
     juce::AudioParameterBool* switchParam;
     juce::AudioParameterFloat* toneParam;
     juce::AudioParameterFloat* volumeParam;
-    juce::AudioParameterBool* enableParam;
+    juce::AudioParameterBool* bypassParam;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OCD_EmuAudioProcessor)

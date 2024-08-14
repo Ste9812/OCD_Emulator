@@ -43,6 +43,11 @@ OCD_EmuAudioProcessorEditor::OCD_EmuAudioProcessorEditor(OCD_EmuAudioProcessor& 
     volumeKnob.setLookAndFeel(&uiStyle);
     volumeKnob.addListener(this);
 
+    addAndMakeVisible(pedalName);
+    pedalName.setFont(juce::Font("Comic Sans MS", float(getHeight()) / 3.5f, juce::Font::bold));
+    pedalName.setColour(juce::Label::textColourId, juce::Colours::black);
+    pedalName.setJustificationType(juce::Justification::centred);
+
     addAndMakeVisible(bypassBtn);
     bypassBtn.setClickingTogglesState(true);
     bypassBtn.setLookAndFeel(&uiStyle);
@@ -58,6 +63,15 @@ OCD_EmuAudioProcessorEditor::OCD_EmuAudioProcessorEditor(OCD_EmuAudioProcessor& 
     toneLbl.setLookAndFeel(&uiStyle);
     addAndMakeVisible(volumeLbl);
     volumeLbl.setLookAndFeel(&uiStyle);
+
+    addAndMakeVisible(manufacturer);
+    manufacturer.setFont(juce::Font("Comic Sans MS", 17.0f, juce::Font::plain));
+    manufacturer.setColour(juce::Label::textColourId, juce::Colours::black);
+    manufacturer.setJustificationType(juce::Justification::centred);
+    addAndMakeVisible(project);
+    project.setFont(juce::Font("Comic Sans MS", 17.0f, juce::Font::plain));
+    project.setColour(juce::Label::textColourId, juce::Colours::black);
+    project.setJustificationType(juce::Justification::centred);
 }
 
 OCD_EmuAudioProcessorEditor::~OCD_EmuAudioProcessorEditor()
@@ -97,48 +111,39 @@ void OCD_EmuAudioProcessorEditor::resized()
     int labelHeight = 15;
  
     driveKnob.setBounds(sxCorner, upCorner, knobDiameter, knobDiameter);
-    driveLbl.setBounds(sxCorner, upCorner - 12.5, knobDiameter, labelHeight);
+    driveLbl.setBounds(sxCorner, upCorner - 12, knobDiameter, labelHeight);
 
     switchBtn.setBounds(centerX - w / 16, 30, w / 8, h / 10);
     highPassLbl.setBounds(centerX - w / 16, 20, w / 8, 15);
     lowPassLbl.setBounds(centerX - w / 16, 25 + h / 10, w / 8, 15);
 
-    led.setBounds(centerX - 10, 56 + h / 10, 20, 20);
+    led.setBounds(centerX - 8, 58 + h / 10, 16, 16);
 
     toneKnob.setBounds(centerX - knobDiameter / 2, knobDiameter + upCorner + 10, knobDiameter, knobDiameter);
-    toneLbl.setBounds(centerX - knobDiameter / 2, knobDiameter + upCorner - 2.5, knobDiameter, labelHeight);
+    toneLbl.setBounds(centerX - knobDiameter / 2, knobDiameter + upCorner - 2, knobDiameter, labelHeight);
 
     volumeKnob.setBounds(dxCorner, upCorner, knobDiameter, knobDiameter);
-    volumeLbl.setBounds(dxCorner, upCorner - 12.5, knobDiameter, labelHeight);
+    volumeLbl.setBounds(dxCorner, upCorner - 12, knobDiameter, labelHeight);
 
-    bypassBtn.setBounds(3 * w / 8, 2 * h / 3, w / 4, w / 4);
+    pedalName.setBounds(centerX - w / 2 + 20, h / 2 - 10, w - 40, int(h / 5.5));
+
+    bypassBtn.setBounds(3 * w / 8, 2 * h / 3 + 25, w / 4, w / 4);
+
+    manufacturer.setBounds(centerX - w / 2, h - 75, w, 20);
+    project.setBounds(centerX - w / 2, h - 55, w, 20);
 }
 
+//==============================================================================
 void OCD_EmuAudioProcessorEditor::buttonClicked(Button* button)
 {
     if (button == &switchBtn)
     {
         audioProcessor.setSwitch(switchBtn.getToggleState());
-        if (!switchBtn.getToggleState())
-        {
-            switchBtn.setButtonText("HP");
-        }
-        else
-        {
-            switchBtn.setButtonText("LP");
-        }
     }
     if (button == &bypassBtn)
     {
-        audioProcessor.setEnable(bypassBtn.getToggleState());
-        if (!bypassBtn.getToggleState())
-        {
-            led.setLedOn(bypassBtn.getToggleState());
-        }
-        else
-        {
-            led.setLedOn(bypassBtn.getToggleState());
-        }
+        audioProcessor.setBypass(bypassBtn.getToggleState());
+        led.setLedOn(bypassBtn.getToggleState());
     }
 }
  

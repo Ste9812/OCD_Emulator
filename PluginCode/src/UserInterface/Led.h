@@ -1,6 +1,8 @@
 #pragma once
 #include <JuceHeader.h>
 
+using mathConst = juce::MathConstants<float>;
+
 class Led : public juce::Component
 {
 public:

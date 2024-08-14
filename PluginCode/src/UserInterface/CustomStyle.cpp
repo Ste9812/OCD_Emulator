@@ -88,7 +88,7 @@ void CustomStyle::drawToggleButton(juce::Graphics& g, juce::ToggleButton& toggle
     g.setColour(black);
     g.drawEllipse(internalCircle, 1.0f);
 
-    float yOffset = toggleButton.getToggleState() ? centreY - switchHeight : centreY;
+    float yOffset = toggleButton.getToggleState() ? centreY : centreY - switchHeight;
     auto switchBounds = juce::Rectangle<float>(bounds.getCentreX() - switchWidth / 2, yOffset, switchWidth, switchHeight);
     g.setColour(silver);
     g.fillRoundedRectangle(switchBounds, 4.0f);
@@ -114,7 +114,7 @@ void CustomStyle::drawButtonBackground(Graphics& g, Button& button, const Colour
 
     float outRadius = radius * 1.3f;
     float outDiameter = 2.0f * outRadius;
-    colGrad gradOut(white, centre.x, centre.y, black.withAlpha(0.4f), centre.x + outRadius, centre.y + outRadius, true);
+    colGrad gradOut(white, centre.x, centre.y, black.withAlpha(0.45f), centre.x + outRadius, centre.y + outRadius, true);
     g.setGradientFill(gradOut);
     g.fillEllipse(centre.x - outRadius, centre.y - outRadius, outDiameter, outDiameter);
     g.setColour(black);
@@ -132,8 +132,16 @@ void CustomStyle::drawButtonBackground(Graphics& g, Button& button, const Colour
     float intRadius = 0.9f * radius;
     float intDiameter = 2.0f * intRadius;
     float offset = intRadius / float(sqrt(2));
-    colGrad grad(silver.brighter(1.2f), centre.x - offset, centre.y - offset, silver.darker(1.0f), centre.x + offset, centre.y + offset, false);
-    g.setGradientFill(grad);
+    colGrad gradIn;
+    if (button.getToggleState())
+    {
+        gradIn = colGrad(silver.darker(1.0f), centre.x - offset, centre.y - offset, silver.brighter(1.2f), centre.x + offset, centre.y + offset, false);
+    }
+    else
+    {
+        gradIn = colGrad(silver.brighter(1.2f), centre.x - offset, centre.y - offset, silver.darker(1.0f), centre.x + offset, centre.y + offset, false);
+    }
+    g.setGradientFill(gradIn);
     g.fillEllipse(centre.x - intRadius, centre.y - intRadius, intDiameter, intDiameter);
     g.setColour(black);
     g.drawEllipse(centre.x - intRadius, centre.y - intRadius, intDiameter, intDiameter, 0.6f);

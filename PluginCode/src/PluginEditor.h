@@ -4,7 +4,6 @@
 #include "UserInterface/CustomStyle.h"
 #include "UserInterface/Led.h"
 
-//==============================================================================
 class OCD_EmuAudioProcessorEditor  : public juce::AudioProcessorEditor,
                                         public Slider::Listener, 
                                         public Button::Listener
@@ -13,11 +12,9 @@ public:
     OCD_EmuAudioProcessorEditor (OCD_EmuAudioProcessor&);
     ~OCD_EmuAudioProcessorEditor() override;
 
-    //==============================================================================
     void paint (juce::Graphics&) override;
     void resized() override;
 
-    //==============================================================================
     void sliderValueChanged(Slider *slider) override;
     void buttonClicked(Button* btn) override; 
 
@@ -43,6 +40,6 @@ private:
     CustomStyle uiStyle;
 
     OCD_EmuAudioProcessor& audioProcessor;
-    //==============================================================================
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OCD_EmuAudioProcessorEditor)
 };

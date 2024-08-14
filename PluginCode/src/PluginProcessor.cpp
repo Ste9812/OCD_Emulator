@@ -24,14 +24,14 @@ OCD_EmuAudioProcessor::OCD_EmuAudioProcessor()
 
     driveParam = new juce::AudioParameterFloat("drivePar", "Drive", 0.0f, 1.0f, 0.0f);
     addParameter(driveParam);
-    switchParam = new juce::AudioParameterBool("switchPar", "Switch", true);
+    switchParam = new juce::AudioParameterBool("switchPar", "Switch", false);
     addParameter(switchParam);
     toneParam = new juce::AudioParameterFloat("tonePar", "Tone", 0.0f, 1.0f, 0.0f);
     addParameter(toneParam); 
     volumeParam = new juce::AudioParameterFloat("volumePar", "Volume", 0.0f, 1.0f, 0.5f); 
     addParameter(volumeParam);
-    enableParam = new juce::AudioParameterBool("enablePar", "Enable", true);  
-    addParameter(enableParam);
+    bypassParam = new juce::AudioParameterBool("enablePar", "Enable", false);  
+    addParameter(bypassParam);
 }
 
 OCD_EmuAudioProcessor::~OCD_EmuAudioProcessor()
@@ -156,11 +156,18 @@ void OCD_EmuAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce:
 
     auto* outputBuffer = buffer.getWritePointer(0);
 
-    inputLimiter.process(buffer, outputBuffer, bufferLength);
-
-    lstmModel.process(outputBuffer, bufferLength);
-
-    toneControl.process(outputBuffer, bufferLength);
+    if (*bypassParam)
+    {
+        juce::dsp::AudioBlock<float> audioBlock(buffer);
+        float* unprocessedBuffer = audioBlock.getChannelPointer(0);
+        std::copy(unprocessedBuffer, unprocessedBuffer + bufferLength, outputBuffer);
+    }
+    else
+    {
+        inputLimiter.process(buffer, outputBuffer, bufferLength);
+        lstmModel.process(outputBuffer, bufferLength);
+        toneControl.process(outputBuffer, bufferLength);
+    }
 
     for (int ch = 1; ch < totalNumInputChannels; ++ch)
     {
@@ -222,7 +229,7 @@ void OCD_EmuAudioProcessor::setVolume(double newValue)
     toneControl.setVolume(static_cast<double>(*volumeParam));
 }
 
-void OCD_EmuAudioProcessor::setEnable(bool newState)
+void OCD_EmuAudioProcessor::setBypass(bool newState)
 {
-    *enableParam = newState;
+    *bypassParam = newState;
 }
