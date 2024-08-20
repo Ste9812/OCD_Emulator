@@ -3,57 +3,57 @@
 	"Data Sets": [
 	{
 		"Parameters":[ 0.0 ],
-		"TrainingClean": "OCD/clean.wav",
-		"TrainingTarget": "OCD/distorted_0.wav"
+		"TrainingClean": "C:/Users/Stefano/Documents/GitHub/STMAE_Project/TrainingAudio/clean.wav",
+		"TrainingTarget": "C:/Users/Stefano/Documents/GitHub/STMAE_Project/TrainingAudio/distorted_0.wav"
 	},
 	{
 		"Parameters":[ 0.1 ],
-		"TrainingClean": "OCD/clean.wav",
-		"TrainingTarget": "OCD/distorted_10.wav"
+		"TrainingClean": "C:/Users/Stefano/Documents/GitHub/STMAE_Project/TrainingAudio/clean.wav",
+		"TrainingTarget": "C:/Users/Stefano/Documents/GitHub/STMAE_Project/TrainingAudio/distorted_10.wav"
 	},
 	{
 		"Parameters":[ 0.2 ],
-		"TrainingClean": "OCD/clean.wav",
-		"TrainingTarget": "OCD/distorted_20.wav"
+		"TrainingClean": "C:/Users/Stefano/Documents/GitHub/STMAE_Project/TrainingAudio/clean.wav",
+		"TrainingTarget": "C:/Users/Stefano/Documents/GitHub/STMAE_Project/TrainingAudio/distorted_20.wav"
 	},
 	{
 		"Parameters":[ 0.3 ],
-		"TrainingClean": "OCD/clean.wav",
-		"TrainingTarget": "OCD/distorted_30.wav"
+		"TrainingClean": "C:/Users/Stefano/Documents/GitHub/STMAE_Project/TrainingAudio/clean.wav",
+		"TrainingTarget": "C:/Users/Stefano/Documents/GitHub/STMAE_Project/TrainingAudio/distorted_30.wav"
 	},
 	{
 		"Parameters":[ 0.4 ],
-		"TrainingClean": "OCD/clean.wav",
-		"TrainingTarget": "OCD/distorted_40.wav"
+		"TrainingClean": "C:/Users/Stefano/Documents/GitHub/STMAE_Project/TrainingAudio/clean.wav",
+		"TrainingTarget": "C:/Users/Stefano/Documents/GitHub/STMAE_Project/TrainingAudio/distorted_40.wav"
 	},
 	{
 		"Parameters":[ 0.5 ],
-		"TrainingClean": "OCD/clean.wav",
-		"TrainingTarget": "OCD/distorted_50.wav"
+		"TrainingClean": "C:/Users/Stefano/Documents/GitHub/STMAE_Project/TrainingAudio/clean.wav",
+		"TrainingTarget": "C:/Users/Stefano/Documents/GitHub/STMAE_Project/TrainingAudio/distorted_50.wav"
 	},
 	{
 		"Parameters":[ 0.6 ],
-		"TrainingClean": "OCD/clean.wav",
-		"TrainingTarget": "OCD/distorted_60.wav"
+		"TrainingClean": "C:/Users/Stefano/Documents/GitHub/STMAE_Project/TrainingAudio/clean.wav",
+		"TrainingTarget": "C:/Users/Stefano/Documents/GitHub/STMAE_Project/TrainingAudio/distorted_60.wav"
 	},
 	{
 		"Parameters":[ 0.7 ],
-		"TrainingClean": "OCD/clean.wav",
-		"TrainingTarget": "OCD/distorted_70.wav"
+		"TrainingClean": "C:/Users/Stefano/Documents/GitHub/STMAE_Project/TrainingAudio/clean.wav",
+		"TrainingTarget": "C:/Users/Stefano/Documents/GitHub/STMAE_Project/TrainingAudio/distorted_70.wav"
 	},
 	{
 		"Parameters":[ 0.8 ],
-		"TrainingClean": "OCD/clean.wav",
-		"TrainingTarget": "OCD/distorted_80.wav"
+		"TrainingClean": "C:/Users/Stefano/Documents/GitHub/STMAE_Project/TrainingAudio/clean.wav",
+		"TrainingTarget": "C:/Users/Stefano/Documents/GitHub/STMAE_Project/TrainingAudio/distorted_80.wav"
 	},
 	{
 		"Parameters":[ 0.9 ],
-		"TrainingClean": "OCD/clean.wav",
-		"TrainingTarget": "OCD/distorted_90.wav"
+		"TrainingClean": "C:/Users/Stefano/Documents/GitHub/STMAE_Project/TrainingAudio/clean.wav",
+		"TrainingTarget": "C:/Users/Stefano/Documents/GitHub/STMAE_Project/TrainingAudio/distorted_90.wav"
 	},
 	{
 		"Parameters":[ 1.0 ],
-		"TrainingClean": "OCD/clean.wav",
-		"TrainingTarget": "OCD/distorted_100.wav"
+		"TrainingClean": "C:/Users/Stefano/Documents/GitHub/STMAE_Project/TrainingAudio/clean.wav",
+		"TrainingTarget": "C:/Users/Stefano/Documents/GitHub/STMAE_Project/TrainingAudio/distorted_100.wav"
 	}]
 }
