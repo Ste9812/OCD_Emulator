@@ -48,7 +48,7 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-    //==============================================================================
+    // Public setters for sliders and buttons
     void setDrive(double newValue);
     void setSwitch(bool newState);
     void setTone(double newValue);
@@ -56,12 +56,16 @@ public:
     void setBypass(bool newState); 
 
 private:
+    // Instance of a mono limiter to avoid input greater/smaller than 1/-1
     MonoLimiter inputLimiter;
 
-    NeuralNetwork lstmModel;
+    // Instance of the used neural network
+    NeuralNetwork nnModel;
 
+    // Instance of the tone control WDF
     ToneControl toneControl;
 
+    // User parameters to control on the UI
     juce::AudioParameterFloat* driveParam;
     juce::AudioParameterBool* switchParam;
     juce::AudioParameterFloat* toneParam;

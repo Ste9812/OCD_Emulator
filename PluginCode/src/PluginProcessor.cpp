@@ -14,14 +14,13 @@ OCD_EmuAudioProcessor::OCD_EmuAudioProcessor()
                        )
 #endif
 {
-    inputLimiter = MonoLimiter::MonoLimiter();
+    // Path of the neural network model
+    const char *modelPath = "C:/Users/Stefano/Documents/GitHub/STMAE_Project/Training/Results/OCD_Parameterized-LSTM-OCD_Parameterized/model.json"; 
 
-    const char *modelPath = "C:/Users/Stefano/Documents/GitHub/STMAE_Project/Training/Results/OCD_Parameterized-RNN3-OCD_Parameterized/model.json"; 
+    // Build of the neural network according to the model embedded in the .json file
+    nnModel = NeuralNetwork::NeuralNetwork(modelPath);
 
-    lstmModel = NeuralNetwork::NeuralNetwork(modelPath);
-
-    toneControl = ToneControl::ToneControl();
-
+    // Setting up each parameter with default values and IDs
     driveParam = new juce::AudioParameterFloat("drivePar", "Drive", 0.0f, 1.0f, 0.0f);
     addParameter(driveParam);
     switchParam = new juce::AudioParameterBool("switchPar", "Switch", false);
@@ -105,9 +104,10 @@ void OCD_EmuAudioProcessor::changeProgramName(int index, const juce::String& new
 //==============================================================================
 void OCD_EmuAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
+    // Each signal processor is prepared each time the sample rate or the block size change
     inputLimiter.prepare(sampleRate, samplesPerBlock);
 
-    lstmModel.prepare(sampleRate);
+    nnModel.prepare(sampleRate);
 
     toneControl.prepare(sampleRate);
 }
@@ -156,6 +156,7 @@ void OCD_EmuAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce:
 
     auto* outputBuffer = buffer.getWritePointer(0);
 
+    // If the bypass is on, no processing is applied to the audio block
     if (*bypassParam)
     {
         juce::dsp::AudioBlock<float> audioBlock(buffer);
@@ -165,10 +166,11 @@ void OCD_EmuAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce:
     else
     {
         inputLimiter.process(buffer, outputBuffer, bufferLength);
-        lstmModel.process(outputBuffer, bufferLength);
+        nnModel.process(outputBuffer, bufferLength);
         toneControl.process(outputBuffer, bufferLength);
     }
 
+    // cautional passage to account for eventual extra output channel requested by the host
     for (int ch = 1; ch < totalNumInputChannels; ++ch)
     {
         auto* outData = buffer.getWritePointer(ch);
@@ -204,11 +206,11 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
     return new OCD_EmuAudioProcessor();
 }
 
-//==============================================================================
+// The following functions are setters for sliders and buttons on the UI
 void OCD_EmuAudioProcessor::setDrive(double newValue)
 {
     *driveParam = (float)newValue;
-    lstmModel.setDrive(static_cast<float>(*driveParam));
+    nnModel.setDrive(static_cast<float>(*driveParam));
 }
 
 void OCD_EmuAudioProcessor::setSwitch(bool newState)
