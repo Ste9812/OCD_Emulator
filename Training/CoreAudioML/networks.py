@@ -187,7 +187,6 @@ class BasicRNNBlock(nn.Module):
     def reset_hidden(self):
         self.hidden = None
 
-
 def load_model(model_data):
     model_types = {'RecNet': RecNet, 'SimpleRNN': SimpleRNN}
     model_meta = model_data.pop('model_data')
