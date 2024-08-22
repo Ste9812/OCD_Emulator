@@ -124,6 +124,7 @@ plotAbsErrorSignal( y_out , y_GT , f_s , 'V' );
 %% Absolute error maximum
 
 errMax = max( abs( y_out( 1 : min( length( y_GT ) , length( y_out ) ) ) - y_GT( 1 : min( length( y_GT ) , length( y_out ) ) ) ) );
+disp( errMax );
 
 %% Plot auxiliary functions
 
@@ -149,7 +150,7 @@ function plotGroundTruthWDF( y_WDF , y_GT , f_s , sigType )
     ylim( [ min( y_GT , [ ] , 'all' ) - delta , max( y_GT , [ ] , 'all' ) + delta ] );
     xlabel( '$t$ [s]' , 'Fontsize' , 14 , 'interpreter' , 'latex' );
     ylabel( [ '$y_{\mathrm{out}}(t)$ [' , T , ']' ] , 'Fontsize' , 14 , 'interpreter' , 'latex' );
-    title( 'Output Signal' , 'Fontsize' , 18 , 'interpreter' , 'latex' );
+    %title( 'Output Signal' , 'Fontsize' , 18 , 'interpreter' , 'latex' );
     legend( 'Ground Truth' , 'WDF' , 'Fontsize' , 14 , 'interpreter' , 'latex' );
 end
 
@@ -158,6 +159,7 @@ function plotAbsErrorSignal( y_WDF , y_GT , f_s , sigType )
     N_WDF = length( y_WDF );
     N = min( N_GT , N_WDF );
     absErr = abs( y_GT( 1 : N ) - y_WDF( 1 : N ) );
+    [ absErrEnv , ~ ] = envelope( absErr , 20000 , 'peak' );
     switch sigType
         case 'V'
             T = 'V';
@@ -167,13 +169,11 @@ function plotAbsErrorSignal( y_WDF , y_GT , f_s , sigType )
     f = figure;
     f.WindowState = 'maximized';
     set( gcf , 'Position' , [ get( 0 , 'ScreenSize' ) ] );
-    plot( ( 1 : N ) / f_s , absErr , 'b' , 'Linewidth' , 2 );
+    plot( ( 1 : N ) / f_s , absErrEnv , 'b' , 'Linewidth' , 2 );
     grid on;
     xlim( [ 0 , N / f_s ] ); 
-    ylim( [ 0 , 10 * max( absErr , [ ] , 'all' ) ] );
+    ylim( [ 0 , 5 * max( absErr , [ ] , 'all' ) ] );
     xlabel( '$t$ [s]' , 'Fontsize' , 14 , 'interpreter' , 'latex' );
     ylabel( [ '$|e_{out}(t)|$ [' , T , ']' ] , 'Fontsize' , 14 , 'interpreter' , 'latex' );
-    title( 'Error Signal Absolute Value' , 'Fontsize' , 18 , 'interpreter' , 'latex' );
+    %title( 'Error Signal Absolute Value' , 'Fontsize' , 18 , 'interpreter' , 'latex' );
 end
-
-coder -lang:c++
