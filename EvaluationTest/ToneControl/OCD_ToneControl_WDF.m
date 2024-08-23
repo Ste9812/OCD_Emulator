@@ -114,7 +114,7 @@ toc;
 
 %% Write output files
 
-audiowrite( 'Output_WDF.wav' , y_out , f_s );
+audiowrite( 'Output/Output_WDF.wav' , y_out , f_s );
 
 %% Outputs/errors plot
 
