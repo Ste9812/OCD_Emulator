@@ -23,7 +23,7 @@ OCD_EmuAudioProcessor::OCD_EmuAudioProcessor()
     addParameter(toneParam); 
     volumeParam = new juce::AudioParameterFloat("volumePar", "Volume", 0.0f, 1.0f, 0.5f); 
     addParameter(volumeParam);
-    bypassParam = new juce::AudioParameterBool("enablePar", "Enable", false);  
+    bypassParam = new juce::AudioParameterBool("bypassPar", "Bypass", false);  
     addParameter(bypassParam);
 }
 
@@ -149,15 +149,17 @@ void OCD_EmuAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce:
     // If the bypass is on, no processing is applied to the audio block
     if (*bypassParam)
     {
+        // The input buffer is directly copied to the output
         juce::dsp::AudioBlock<float> audioBlock(buffer);
         float* unprocessedBuffer = audioBlock.getChannelPointer(0);
         std::copy(unprocessedBuffer, unprocessedBuffer + bufferLength, outputBuffer);
     }
     else
     {
+        // The input is processed consequently by the limiter, the NN and the WDF
         inputLimiter.process(buffer, outputBuffer, bufferLength);
         nnModel.process(outputBuffer, bufferLength);
-        toneControl.process(outputBuffer, bufferLength);
+        //toneControl.process(outputBuffer, bufferLength);
     }
 
     // cautional passage to account for eventual extra output channel requested by the host

@@ -118,8 +118,8 @@ audiowrite( 'Output_WDF.wav' , y_out , f_s );
 
 %% Outputs/errors plot
 
-plotGroundTruthWDF( y_out , y_GT , f_s , 'V' );
-plotAbsErrorSignal( y_out , y_GT , f_s , 'V' );
+plotGroundTruthWDF( y_out , y_GT , f_s );
+plotAbsErrorSignal( y_out , y_GT , f_s );
 
 %% Absolute error maximum
 
@@ -128,16 +128,10 @@ disp( errMax );
 
 %% Plot auxiliary functions
 
-function plotGroundTruthWDF( y_WDF , y_GT , f_s , sigType )
+function plotGroundTruthWDF( y_WDF , y_GT , f_s )
     N_GT = length( y_GT );
     N_WDF = length( y_WDF );
     N = min( N_GT , N_WDF );
-    switch sigType
-        case 'V'
-            T = 'V';
-        case 'I'
-            T = 'A';
-    end
     f = figure;
     f.WindowState = 'maximized';
     set( gcf , 'Position' , [ get( 0 , 'ScreenSize' ) ] );
@@ -149,23 +143,17 @@ function plotGroundTruthWDF( y_WDF , y_GT , f_s , sigType )
     delta = 0.1 * max( abs( y_GT ) , [ ] , 'all' );
     ylim( [ min( y_GT , [ ] , 'all' ) - delta , max( y_GT , [ ] , 'all' ) + delta ] );
     xlabel( '$t$ [s]' , 'Fontsize' , 14 , 'interpreter' , 'latex' );
-    ylabel( [ '$y_{\mathrm{out}}(t)$ [' , T , ']' ] , 'Fontsize' , 14 , 'interpreter' , 'latex' );
+    ylabel( '$y_{\mathrm{out}}(t)$ [V]' , 'Fontsize' , 14 , 'interpreter' , 'latex' );
     title( 'Output Signal' , 'Fontsize' , 18 , 'interpreter' , 'latex' );
     legend( 'Ground Truth' , 'WDF' , 'Fontsize' , 14 , 'interpreter' , 'latex' );
 end
 
-function plotAbsErrorSignal( y_WDF , y_GT , f_s , sigType )
+function plotAbsErrorSignal( y_WDF , y_GT , f_s )
     N_GT = length( y_GT );
     N_WDF = length( y_WDF );
     N = min( N_GT , N_WDF );
     absErr = abs( y_GT( 1 : N ) - y_WDF( 1 : N ) );
     [ absErrEnv , ~ ] = envelope( absErr , 20000 , 'peak' );
-    switch sigType
-        case 'V'
-            T = 'V';
-        case 'I'
-            T = 'A';
-    end
     f = figure;
     f.WindowState = 'maximized';
     set( gcf , 'Position' , [ get( 0 , 'ScreenSize' ) ] );
@@ -174,6 +162,6 @@ function plotAbsErrorSignal( y_WDF , y_GT , f_s , sigType )
     xlim( [ 0 , N / f_s ] ); 
     ylim( [ 0 , 5 * max( absErr , [ ] , 'all' ) ] );
     xlabel( '$t$ [s]' , 'Fontsize' , 14 , 'interpreter' , 'latex' );
-    ylabel( [ '$|e_{out}(t)|$ [' , T , ']' ] , 'Fontsize' , 14 , 'interpreter' , 'latex' );
+    ylabel( '$|e_{out}(t)|$ [V]' , 'Fontsize' , 14 , 'interpreter' , 'latex' );
     title( 'Error Signal Absolute Value' , 'Fontsize' , 18 , 'interpreter' , 'latex' );
 end

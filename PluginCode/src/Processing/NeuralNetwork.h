@@ -42,7 +42,7 @@ private:
     float sampleRateMult;
 
     // Drive parameter
-    float driveGain;
+    float driveGain = 0.0f;
 
     // Auxiliary vector for feeding the neural network
     float parInput[2] = {0.0f, 0.0f};
