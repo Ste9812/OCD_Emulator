@@ -24,15 +24,19 @@ juce_add_plugin(OCD_Emu
 
 juce_generate_juce_header(OCD_Emu)
 
+juce_add_binary_data(OCD_EmuBinaryData 
+    SOURCES
+        C:/Users/Stefano/Documents/GitHub/STMAE_Project/Training/Results/OCD_Parameterized-LSTM-32-OCD_Parameterized/model.json)
+
 target_sources(OCD_Emu
     PRIVATE
-    src/PluginEditor.cpp
-    src/PluginProcessor.cpp
-    src/Processing/NeuralNetwork.cpp
-    src/Processing/ToneControl.cpp
-    src/Processing/MonoLimiter.cpp
-    src/UserInterface/CustomStyle.cpp
-    src/UserInterface/Led.cpp)
+        src/PluginEditor.cpp
+        src/PluginProcessor.cpp
+        src/Processing/NeuralNetwork.cpp
+        src/Processing/ToneControl.cpp
+        src/Processing/MonoLimiter.cpp
+        src/UserInterface/CustomStyle.cpp
+        src/UserInterface/Led.cpp)
 
 target_compile_definitions(OCD_Emu
     PUBLIC 
@@ -46,6 +50,7 @@ target_compile_definitions(OCD_Emu
 
 target_link_libraries(OCD_Emu
     PRIVATE
+        OCD_EmuBinaryData
         juce::juce_audio_utils
         juce::juce_dsp
         juce::juce_core

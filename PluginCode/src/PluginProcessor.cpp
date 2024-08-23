@@ -14,12 +14,6 @@ OCD_EmuAudioProcessor::OCD_EmuAudioProcessor()
                        )
 #endif
 {
-    // Path of the neural network model
-    const char *modelPath = "C:/Users/Stefano/Documents/GitHub/STMAE_Project/Training/Results/OCD_Parameterized-LSTM-OCD_Parameterized/model.json"; 
-
-    // Build of the neural network according to the model embedded in the .json file
-    nnModel = NeuralNetwork::NeuralNetwork(modelPath);
-
     // Setting up each parameter with default values and IDs
     driveParam = new juce::AudioParameterFloat("drivePar", "Drive", 0.0f, 1.0f, 0.0f);
     addParameter(driveParam);
@@ -106,9 +100,7 @@ void OCD_EmuAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock
 {
     // Each signal processor is prepared each time the sample rate or the block size change
     inputLimiter.prepare(sampleRate, samplesPerBlock);
-
     nnModel.prepare(sampleRate);
-
     toneControl.prepare(sampleRate);
 }
 
@@ -141,11 +133,9 @@ bool OCD_EmuAudioProcessor::isBusesLayoutSupported(const BusesLayout& layouts) c
 void OCD_EmuAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
     juce::ignoreUnused(midiMessages);
-
     juce::ScopedNoDenormals noDenormals;
 
     auto bufferLength = buffer.getNumSamples();
-
     auto totalNumInputChannels = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 

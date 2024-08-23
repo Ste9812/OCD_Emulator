@@ -1,32 +1,30 @@
 #include "NeuralNetwork.h"
 
-// Custom constructor of the neural network class
-NeuralNetwork::NeuralNetwork(const char* filePath)
+// Constructor of the neural network class
+NeuralNetwork::NeuralNetwork()
 {
-    this->loadWeights(filePath);
+    this->loadWeights();
 }
 
 // This function loads the weights and the biases for both the recurrent and the dense layer from a .json file
-void NeuralNetwork::loadWeights(const char* filePath)
-    {
-        std::ifstream jsonStream(filePath);
-        nlohmann::json weightsJson;
-        jsonStream >> weightsJson;
-        auto& recLayer = model.template get<0>();
-        auto& dense = model.template get<1>();
-        floatVec2D weights_ih = weightsJson["/state_dict/rec.weight_ih_l0"_json_pointer];
-        recLayer.setWVals(transpose(weights_ih));
-        floatVec2D weights_hh = weightsJson["/state_dict/rec.weight_hh_l0"_json_pointer];
-        recLayer.setUVals(transpose(weights_hh));
-        floatVec bias_ih = weightsJson["/state_dict/rec.bias_ih_l0"_json_pointer];
-        floatVec bias_hh = weightsJson["/state_dict/rec.bias_hh_l0"_json_pointer];
-        recLayer.setBVals(sum(bias_ih, bias_hh));
-        floatVec2D lin_weights = weightsJson["/state_dict/lin.weight"_json_pointer];
-        dense.setWeights(lin_weights);
-        floatVec lin_bias = weightsJson["/state_dict/lin.bias"_json_pointer];
-        dense.setBias(lin_bias.data());
-        model.reset();  
-    }
+void NeuralNetwork::loadWeights()
+{
+    nlohmann::json weightsJson = nlohmann::json::parse(BinaryData::model_json);
+    auto& recLayer = model.template get<0>();
+    auto& dense = model.template get<1>();
+    floatVec2D weights_ih = weightsJson["/state_dict/rec.weight_ih_l0"_json_pointer];
+    recLayer.setWVals(transpose(weights_ih));
+    floatVec2D weights_hh = weightsJson["/state_dict/rec.weight_hh_l0"_json_pointer];
+    recLayer.setUVals(transpose(weights_hh));
+    floatVec bias_ih = weightsJson["/state_dict/rec.bias_ih_l0"_json_pointer];
+    floatVec bias_hh = weightsJson["/state_dict/rec.bias_hh_l0"_json_pointer];
+    recLayer.setBVals(sum(bias_ih, bias_hh));
+    floatVec2D lin_weights = weightsJson["/state_dict/lin.weight"_json_pointer];
+    dense.setWeights(lin_weights);
+    floatVec lin_bias = weightsJson["/state_dict/lin.bias"_json_pointer];
+    dense.setBias(lin_bias.data());
+    model.reset();  
+}
 
 // This function adapts the model to the current sampling frequency if it is higher than the training one
 void NeuralNetwork::prepare(double sampleRate) 
