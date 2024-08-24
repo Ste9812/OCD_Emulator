@@ -142,8 +142,8 @@ function plotGroundTruthWDF( y_WDF , y_GT , f_s )
     xlim( [ 0 , N / f_s ] ); 
     delta = 0.1 * max( abs( y_GT ) , [ ] , 'all' );
     ylim( [ min( y_GT , [ ] , 'all' ) - delta , max( y_GT , [ ] , 'all' ) + delta ] );
-    xlabel( '$t$ [s]' , 'Fontsize' , 14 , 'interpreter' , 'latex' );
-    ylabel( '$y_{\mathrm{out}}(t)$ [V]' , 'Fontsize' , 14 , 'interpreter' , 'latex' );
+    xlabel( '$t$ [s]' , 'Fontsize' , 18 , 'interpreter' , 'latex' );
+    ylabel( '$y_{\mathrm{out}}(t)$ [V]' , 'Fontsize' , 18 , 'interpreter' , 'latex' );
     title( 'Output Signal' , 'Fontsize' , 18 , 'interpreter' , 'latex' );
     legend( 'Ground Truth' , 'WDF' , 'Fontsize' , 14 , 'interpreter' , 'latex' );
 end
@@ -161,7 +161,7 @@ function plotAbsErrorSignal( y_WDF , y_GT , f_s )
     grid on;
     xlim( [ 0 , N / f_s ] ); 
     ylim( [ 0 , 5 * max( absErr , [ ] , 'all' ) ] );
-    xlabel( '$t$ [s]' , 'Fontsize' , 14 , 'interpreter' , 'latex' );
-    ylabel( '$|e_{out}(t)|$ [V]' , 'Fontsize' , 14 , 'interpreter' , 'latex' );
+    xlabel( '$t$ [s]' , 'Fontsize' , 18 , 'interpreter' , 'latex' );
+    ylabel( '$|e_{out}(t)|$ [V]' , 'Fontsize' , 18 , 'interpreter' , 'latex' );
     title( 'Error Signal Absolute Value' , 'Fontsize' , 18 , 'interpreter' , 'latex' );
 end
