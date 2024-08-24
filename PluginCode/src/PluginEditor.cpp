@@ -5,11 +5,14 @@
 OCD_EmuAudioProcessorEditor::OCD_EmuAudioProcessorEditor(OCD_EmuAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
+    // Size of the plugin UI
     setSize(300, 600);
 
+    // Min/Max angle for knob rotation
     float startAngle = -0.75f * mathConst::pi;
     float endAngle = 0.75f * mathConst::pi;
 
+    // Setup of the drive knob
     addAndMakeVisible(driveKnob);
     driveKnob.setRange(0.0, 1.0, 0.01);
     driveKnob.setValue(0.0);
@@ -19,12 +22,15 @@ OCD_EmuAudioProcessorEditor::OCD_EmuAudioProcessorEditor(OCD_EmuAudioProcessor& 
     driveKnob.setLookAndFeel(&uiStyle);
     driveKnob.addListener(this);
 
+    // Setup of the switch HP/LP switch
     addAndMakeVisible(switchBtn);
     switchBtn.setLookAndFeel(&uiStyle);
     switchBtn.addListener(this);
 
+    // Setup of the active/bypass LED
     addAndMakeVisible(led);
 
+    // Setup of the tone knob
     addAndMakeVisible(toneKnob);
     toneKnob.setRange(0.0, 1.0, 0.01);
     toneKnob.setValue(0.0);
@@ -34,6 +40,7 @@ OCD_EmuAudioProcessorEditor::OCD_EmuAudioProcessorEditor(OCD_EmuAudioProcessor& 
     toneKnob.setLookAndFeel(&uiStyle);
     toneKnob.addListener(this);
 
+    // Setup of the volume knob
     addAndMakeVisible(volumeKnob);
     volumeKnob.setRange(0.0, 1.0, 0.01);
     volumeKnob.setValue(0.5);
@@ -43,16 +50,19 @@ OCD_EmuAudioProcessorEditor::OCD_EmuAudioProcessorEditor(OCD_EmuAudioProcessor& 
     volumeKnob.setLookAndFeel(&uiStyle);
     volumeKnob.addListener(this);
 
+    // Label setup for pedal name
     addAndMakeVisible(pedalName);
     pedalName.setFont(juce::Font("Comic Sans MS", float(getHeight()) / 3.5f, juce::Font::bold));
     pedalName.setColour(juce::Label::textColourId, juce::Colours::black);
     pedalName.setJustificationType(juce::Justification::centred);
 
+    // Setup of the bypass switch
     addAndMakeVisible(bypassBtn);
     bypassBtn.setClickingTogglesState(true);
     bypassBtn.setLookAndFeel(&uiStyle);
     bypassBtn.addListener(this);
 
+    // Label setup for each user-controllable parameter
     addAndMakeVisible(driveLbl);
     driveLbl.setLookAndFeel(&uiStyle);
     addAndMakeVisible(highPassLbl);
@@ -64,6 +74,7 @@ OCD_EmuAudioProcessorEditor::OCD_EmuAudioProcessorEditor(OCD_EmuAudioProcessor& 
     addAndMakeVisible(volumeLbl);
     volumeLbl.setLookAndFeel(&uiStyle);
 
+    // Personal label setup 
     addAndMakeVisible(manufacturer);
     manufacturer.setFont(juce::Font("Comic Sans MS", 17.0f, juce::Font::plain));
     manufacturer.setColour(juce::Label::textColourId, juce::Colours::black);
@@ -76,6 +87,7 @@ OCD_EmuAudioProcessorEditor::OCD_EmuAudioProcessorEditor(OCD_EmuAudioProcessor& 
 
 OCD_EmuAudioProcessorEditor::~OCD_EmuAudioProcessorEditor()
 {
+    // Deactivate all the custom LookAndFeels
     driveKnob.setLookAndFeel(nullptr);
     switchBtn.setLookAndFeel(nullptr);
     toneKnob.setLookAndFeel(nullptr);
@@ -88,18 +100,22 @@ OCD_EmuAudioProcessorEditor::~OCD_EmuAudioProcessorEditor()
 //==============================================================================
 void OCD_EmuAudioProcessorEditor::paint(juce::Graphics& g)
 {
+    // Background colour
     g.fillAll(juce::Colours::black);
 
+    // Geometric parameters
     float corner = 10.0f;
     float pedalWidth = float(getWidth()) - 2.0f * corner;
     float pedalHeight = float(getHeight()) - 2.0f * corner;
 
+    // Actual pedal background color and geometry
     g.setColour(juce::Colour::fromRGB(253, 253, 208));
     g.fillRoundedRectangle(juce::Rectangle<float>(corner, corner, pedalWidth, pedalHeight), 10);
 }
 
 void OCD_EmuAudioProcessorEditor::resized()
 {
+    // Geometric parameters
     int w = getWidth();
     int h = getHeight(); 
 
@@ -110,6 +126,7 @@ void OCD_EmuAudioProcessorEditor::resized()
     int dxCorner = w - knobDiameter - sxCorner;
     int labelHeight = 15;
  
+    // Positions for each control and label
     driveKnob.setBounds(sxCorner, upCorner, knobDiameter, knobDiameter);
     driveLbl.setBounds(sxCorner, upCorner - 12, knobDiameter, labelHeight);
 
@@ -133,7 +150,7 @@ void OCD_EmuAudioProcessorEditor::resized()
     project.setBounds(centerX - w / 2, h - 55, w, 20);
 }
 
-//==============================================================================
+// Overrides of buttonClicked and silderValueChanged for user interaction
 void OCD_EmuAudioProcessorEditor::buttonClicked(Button* button)
 {
     if (button == &switchBtn)

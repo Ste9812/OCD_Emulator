@@ -1,11 +1,11 @@
 #include "MonoLimiter.h"
 
-//==============================================================================
+// Default constructor
 MonoLimiter::MonoLimiter()
 {
 }
 
-//==============================================================================
+// Function to prepare the processor according to the sample rate and the block size
 void MonoLimiter::prepare(double sampleRate, int samplesPerBlock)
 {
     limiter.reset();
@@ -17,7 +17,7 @@ void MonoLimiter::prepare(double sampleRate, int samplesPerBlock)
     limiter.setThreshold(limiterThresholdDB);
 }
 
-//==============================================================================
+// Main processing function of the limiter
 void MonoLimiter::process(juce::AudioBuffer<float>& inputBuffer, float* outputBuffer, int bufferLength)
 {
     juce::dsp::AudioBlock<float> audioBlock(inputBuffer);
@@ -26,4 +26,3 @@ void MonoLimiter::process(juce::AudioBuffer<float>& inputBuffer, float* outputBu
     float* processedBuffer = context.getOutputBlock().getChannelPointer(0);
     std::copy(processedBuffer, processedBuffer + bufferLength, outputBuffer);
 }
-

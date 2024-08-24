@@ -13,7 +13,7 @@ void Led::paint(juce::Graphics& g)
 
     auto white = juce::Colours::white;
     auto black = juce::Colours::black;
-
+    
     juce::ColourGradient gradient(ledColour.brighter(0.4f), bounds.getCentreX(), bounds.getCentreY(),
                                   ledColour.darker(1.0f), bounds.getRight(), bounds.getBottom(), false);
     g.setGradientFill(gradient);

@@ -1,6 +1,6 @@
 #include "ToneControl.h"
 
-//==============================================================================
+// Custom constructor for the WDF object 
 ToneControl::ToneControl()
 {
     B_V << -1, 0,  0,  0, 0,  0, 0, 1, 0, 0, 0, 
@@ -17,7 +17,7 @@ ToneControl::ToneControl()
     Rvb = 0.9 * Rv + Rtol;
 }
 
-//==============================================================================
+// Reference port resistance adaptation function according to sample rate
 void ToneControl::prepare(double sampleRate)
 {
     double Z_g = Rg;
@@ -35,7 +35,7 @@ void ToneControl::prepare(double sampleRate)
     updateS();
 }
 
-//==============================================================================
+// Main audio processing function (processes an entire block sample by sample)
 void ToneControl::process(float* buffer, int bufferLength)
 {
     for (auto sample = 0; sample < bufferLength; ++sample)
@@ -56,7 +56,7 @@ void ToneControl::process(float* buffer, int bufferLength)
     }   
 }
 
-//==============================================================================
+// Setter for the HP/LP switch resistor
 void ToneControl::setSwitch(bool state)
 {
     if (state)
@@ -71,6 +71,7 @@ void ToneControl::setSwitch(bool state)
     updateS();
 }
 
+// Setter for the tone control resistor
 void ToneControl::setTone(double value)
 {
     Rtc = Rt * value + Rtol;
@@ -78,6 +79,7 @@ void ToneControl::setTone(double value)
     updateS();
 }
 
+// Setter fro the volume control resistor
 void ToneControl::setVolume(double value)
 {
     Rva = Rv * (A * pow(B, value) + C) + Rtol;
@@ -87,7 +89,7 @@ void ToneControl::setVolume(double value)
     updateS();
 }
 
-//==============================================================================
+// Function for updating the scattering matrix each time a reference port resistance is changed
 void ToneControl::updateS()
 {
     S = sqMat::Identity() - 2 * Z * B_I.transpose() * (B_V * Z * B_I.transpose()).inverse() * B_V;

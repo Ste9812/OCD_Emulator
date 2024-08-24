@@ -8,12 +8,16 @@ using colVec = Eigen::Matrix<double, 11, 1>;
 class ToneControl
 {
 public:
+    // Constructor
     ToneControl();
 
+    // Prepare function for the procsessing matrix
     void prepare(double sampleRate);
 
+    // Audio processing function
     void process(float* buffer, int bufferLength);
 
+    // Setters for variable paramters
     void setSwitch(bool state);
     void setTone(double value);
     void setVolume(double value);
@@ -60,5 +64,6 @@ private:
     colVec a;
     colVec b;
 
+    // Private function for updating the scattering matrix
     void updateS();
 };

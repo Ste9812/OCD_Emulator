@@ -159,7 +159,7 @@ void OCD_EmuAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce:
         // The input is processed consequently by the limiter, the NN and the WDF
         inputLimiter.process(buffer, outputBuffer, bufferLength);
         nnModel.process(outputBuffer, bufferLength);
-        //toneControl.process(outputBuffer, bufferLength);
+        toneControl.process(outputBuffer, bufferLength);
     }
 
     // cautional passage to account for eventual extra output channel requested by the host
