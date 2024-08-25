@@ -8,4 +8,4 @@ Hybrid RNN/WDF FullTone OCD emulation coded in JUCE framework.
 
 It is recommended to use VSCode with CMake tools (Release version) installed.
 
-The only line of code that must be changed is found in [ModelPath](/PluginCode/CMakeLists.txt) at line 29: the global path of the .json file containing the trained neural network has to be adapted to the new system.
+The only line of code that must be changed is found in [CMakeLists.txt](/PluginCode/CMakeLists.txt) at line 29: the global path of the .json file containing the trained neural network has to be adapted to the new system.
