@@ -14,6 +14,10 @@ The only line of code that must be changed is found in [CMakeLists.txt](/PluginC
 
 If you desire to load a model with a different hidden size, it would be sufficient to modify the line 6 of the [NeuralNetwork.h](/PluginCode/src/Processing/NeuralNetwork.h) file.
 
+##
+
+The technical report, the video presentation and the auxiliary slides are located in the [Assets folder](/Assets) of this repository.
+
 ## Aknowledgments
 
 Alec Wright - Python training code
