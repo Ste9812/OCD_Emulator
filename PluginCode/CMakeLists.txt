@@ -26,7 +26,7 @@ juce_generate_juce_header(OCD_Emu)
 
 juce_add_binary_data(OCD_EmuBinaryData 
     SOURCES
-        C:/Users/Stefano/Documents/GitHub/STMAE_Project/Training/Results/OCD_Parameterized-LSTM-32-OCD_Parameterized/model.json)
+        C:/Users/Stefano/Documents/GitHub/STMAE_Project/Training/Results/OCD_Parameterized-LSTM-32-OCD_Parameterized/model.json) # Change this line according to the path of the model
 
 target_sources(OCD_Emu
     PRIVATE
