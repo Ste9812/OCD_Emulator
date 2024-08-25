@@ -17,6 +17,9 @@ If you desire to load a model with a different hidden size, it would be sufficie
 ## Aknowledgments
 
 Alec Wright - Python training code
+
 Keith Bloemer - GuitarML page
-Alessandro Proverbio - NeuralNetwork class management
+
+Alessandro Proverbio - Neural network class management
+
 Luca Vitale - Live demonstration
